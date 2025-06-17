@@ -100,7 +100,8 @@
                   <strong>explainable</strong> artifical intelligence with the long-term goal of making AI systems safe and scalable
                   Currently, I'm working on: -->
                 <ul>
-                  <li> <strong>2025-03</strong>  Completed <a href="https://arxiv.org/abs/2503.11832">Safety Mirage</a> focusing on the application of machine unlearning on VLM safety alignment, which is the first project during my PhD journey! </li>
+                  <li> <strong>2025-05</strong>  <b>Unlearning Detection</b> focusing on the detecting unlearning traces in LLM from model outputs! </li>
+                  <li> <strong>2025-03</strong>  <a href="https://arxiv.org/abs/2503.11832">Safety Mirage</a> focusing on the application of machine unlearning on VLM safety alignment, which is the first project during my PhD journey! </li>
                   <li> <strong>2024-08</strong>  Started PhD journey at Michigan State University! </li>
                   <li> <strong>2024-06</strong>  Graduated from Xi'an Jiaotong University!</li>
                 </ul>
@@ -127,12 +128,39 @@
             <tbody>
 
               <tr></tr>
-              <td style="padding:20px;width:25%;vertical-align:middle">
-                <div class="one"><img src="images/vlm-unlearn.png"
-                    style="width:120%;max-width:120%; position: absolute;top: -5%">
+              <td style="padding:20px;width:30%;vertical-align:middle">
+                <div class="one"><img src="images/unlearn-trace.png"
+                    style="width:145%;max-width:145%; position: absolute;top: -5%">
                 </div>
               </td>
-              <td style="padding:20px;width:75%;vertical-align:middle">
+              <td style="padding:20px;width:80%;vertical-align:middle">
+                <papertitle>Unlearning Isn't Invisible: Detecting Unlearning Traces  in LLMs from Model Outputs
+                </papertitle>
+                <br>
+                <strong>Yiwei Chen</strong>*,
+                <a href="https://scholar.google.ca/citations?user=c2VU-_4AAAAJ&hl=en">Soumyadeep Pal*</a>,
+                <a href="https://damon-demon.github.io/">Yimeng Zhang</a>,
+                <a href="https://qingqu.engin.umich.edu/">Qing Qu</a>,
+                <a href="https://lsjxjtu.github.io/">Sijia Liu</a>
+                <br>
+                <em> Under Review </em>, 2025
+                <br>
+                <a href="https://github.com/OPTML-Group/Unlearn-Trace">Code</a>
+                <!-- /
+                <a href="https://arxiv.org/abs/2503.11832">arXiv</a> -->
+                <p>
+                  Large language models retain persistent fingerprints in their outputs and hidden activations even after unlearning. 
+                  These traces enable detection of whether a model has been “unlearned,” exposing a new vulnerability in reverse-engineering forgotten information.
+                </p>
+              </td></tr>
+
+              <tr></tr>
+              <td style="padding:20px;width:30%;vertical-align:middle">
+                <div class="one"><img src="images/vlm-unlearn.png"
+                    style="width:145%;max-width:145%; position: absolute;top: -5%">
+                </div>
+              </td>
+              <td style="padding:20px;width:80%;vertical-align:middle">
                 <papertitle>Safety Mirage: How Spurious Correlations Undermine VLM Safety Fine-tuning
                 </papertitle>
                 <br>
@@ -140,7 +168,7 @@
                 <a href="https://cse.msu.edu/~yaoyugua/">Yuguang Yao*</a>,
                 <a href="https://www.yihua-zhang.com/">Yihua Zhang</a>,
                 Bingquan Shen, Gaowen Liu,
-                <a href="https://lsjxjtu.github.io/">Sijia Liu</a>,
+                <a href="https://lsjxjtu.github.io/">Sijia Liu</a>
                 <br>
                 <em> Under Review </em>, 2025
                 <br>
@@ -155,48 +183,40 @@
                   word attacks. Employing unlearning algorithms on VLMs effectively removes harmful content and
                   addresses these safety issues.
                 </p>
+              </td></tr>
+
+              <tr></tr>
+              <td style="padding:20px;width:30%;vertical-align:middle">
+                <div class="one"><img src="images/mftr.png"
+                    style="width:145%;max-width:145%; position: absolute;top: -5%">
+                </div>
               </td>
+              <td style="padding:20px;width:80%;vertical-align:middle">
+                <papertitle>Tile Classification Based Viewport Prediction with Multi-modal Fusion Transformer
+                </papertitle>
+                <br>
+                Zhihao Zhang*,
+                <strong>Yiwei Chen</strong>*,
+                Weizhan Zhang,
+                Caixia Yan, Qinghua Zheng, Qi Wang, Wangdu Chen
+                <br>
+                <em> ACM MM </em>, 2023
+                <br>
+                <a href="https://github.com/alanzhangcs/MFTR">Code</a>
+                /
+                <a href="https://arxiv.org/pdf/2309.14704">arXiv</a>
+                <p></p>
+                <p>
+                  Propose a tile classification based viewport prediction method with Multi-modal Fusion Transformer
+                  to improve the robustness of viewport prediction.
+                </p>
+              </td></tr>
 
-      </tr>
-
-
-      <tr onmouseout="mftr_stop()" onmouseover="mftr_start()">
-        <td style="padding:20px;width:25%;vertical-align:middle">
-          <div class="one"><img src="images/mftr.png" style="width:120%;height:auto">
-          </div>
-        </td>
-        <td style="padding:30px;width:75%;vertical-align:middle">
-          <papertitle>Tile Classification Based Viewport Prediction with Multi-modal Fusion Transformer
-          </papertitle>
-          <br>
-          Zhihao Zhang*,
-          <strong>Yiwei Chen</strong>*,
-          Weizhan Zhang,
-          Caixia Yan, Qinghua Zheng, Qi Wang, Wangdu Chen
-          <br>
-          <em> ACM MM </em>, 2023
-          <br>
-          <a href="https://github.com/alanzhangcs/MFTR">Code</a>
-          /
-          <a href="https://arxiv.org/pdf/2309.14704">arXiv</a>
-          <p></p>
-          <p>
-            Propose a tile classification based viewport prediction method with Multi-modal Fusion Transformer
-            to improve the robustness of viewport prediction.
-          </p>
-        </td>
-      </tr>
-
-      <!-- <tr></tr>
-      <td>
-        <em>(* means equal contribution)</em>
-      </td>
-      </tr> -->
 
       <tr></tr>
-      <td style="padding:20px;width:0%;vertical-align:middle">
+      <td style="padding:0px;width:0%;vertical-align:middle">
       </td>
-      <td style="padding:20px;width:100%;vertical-align:middle">
+      <td style="padding:0px;width:100%;vertical-align:middle">
         <hr style="margin-top:0px">
         <!-- <p>The website template was adapted from <a href="https://ziqipang.github.io/">Ziqi Pang</a>.</p> -->
       </td>
