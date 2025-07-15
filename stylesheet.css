@@ -142,19 +142,21 @@
     width: 100% !important;
     max-width: 100% !important;
     height: auto !important;
-    margin-bottom: 10px;
   }
   
-  td[style*="vertical-align:middle"] {
-    display: block;
-    width: 100% !important;
-    box-sizing: border-box;
-  }
-  
-  /* Ensure proper spacing on mobile */
+  /* Keep table layout but adjust image container */
   .one {
     width: 100% !important;
     height: auto !important;
     position: static !important;
+  }
+  
+  /* Adjust table cell widths for mobile */
+  td[style*="width:35%"] {
+    width: 40% !important;
+  }
+  
+  td[style*="width:65%"] {
+    width: 60% !important;
   }
 }
