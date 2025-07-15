@@ -134,3 +134,27 @@
     color: black;
     text-decoration: underline; 
 }
+
+/* Mobile responsive styles to prevent image and text overlap */
+@media (max-width: 600px) {
+  .one img {
+    position: static !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    margin-bottom: 10px;
+  }
+  
+  td[style*="vertical-align:middle"] {
+    display: block;
+    width: 100% !important;
+    box-sizing: border-box;
+  }
+  
+  /* Ensure proper spacing on mobile */
+  .one {
+    width: 100% !important;
+    height: auto !important;
+    position: static !important;
+  }
+}
