@@ -111,113 +111,89 @@
           </tbody>
         </table>
 
-          <table
-            style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
-            <tbody>
-              <tr>
-                <td style="padding:10px;width:100%;vertical-align:middle">
-                  <heading>Publications</heading>
-                  (* denotes equal contribution)
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <!-- Publications Section -->
+          <heading>Publications</heading>
+          (* denotes equal contribution)
 
-          <table
-            style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
-            <tbody>
+          <div class="pub-row">
+            <div class="pub-img">
+              <img src="images/unlearn-trace.png" alt="Unlearn Trace" />
+            </div>
+            <div class="pub-info">
+              <papertitle>Unlearning Isn't Invisible: Detecting Unlearning Traces  in LLMs from Model Outputs</papertitle>
+              <br>
+              <strong>Yiwei Chen</strong>*,
+              <a href="https://scholar.google.ca/citations?user=c2VU-_4AAAAJ&hl=en">Soumyadeep Pal*</a>,
+              <a href="https://damon-demon.github.io/">Yimeng Zhang</a>,
+              <a href="https://qingqu.engin.umich.edu/">Qing Qu</a>,
+              <a href="https://lsjxjtu.github.io/">Sijia Liu</a>
+              <br>
+              <em> Under Review </em>, 2025
+              <br>
+              <em>Short version accepted for Oral at MUGen @ ICML'25</em>
+              <br>
+              <a href="https://github.com/OPTML-Group/Unlearn-Trace">Code</a>
+              /
+              <a href="https://arxiv.org/abs/2506.14003">arXiv</a>
+              <p>
+                Large language models retain persistent fingerprints in their outputs and hidden activations even after unlearning. 
+                These traces enable detection of whether a model has been “unlearned,” exposing a new vulnerability in reverse-engineering forgotten information.
+              </p>
+            </div>
+          </div>
 
-              <tr></tr>
-              <td style="padding:20px;width:35%;vertical-align:middle">
-                <div class="one"><img src="images/unlearn-trace.png"
-                    style="width:160%;max-width:160%; position: absolute;top: -5%">
-                </div>
-              </td>
-              <td style="padding:20px;width:65%;vertical-align:middle">
-                <papertitle>Unlearning Isn't Invisible: Detecting Unlearning Traces  in LLMs from Model Outputs
-                </papertitle>
-                <br>
-                <strong>Yiwei Chen</strong>*,
-                <a href="https://scholar.google.ca/citations?user=c2VU-_4AAAAJ&hl=en">Soumyadeep Pal*</a>,
-                <a href="https://damon-demon.github.io/">Yimeng Zhang</a>,
-                <a href="https://qingqu.engin.umich.edu/">Qing Qu</a>,
-                <a href="https://lsjxjtu.github.io/">Sijia Liu</a>
-                <br>
-                <em> Under Review </em>, 2025
-                <br>
-                <em>Short version accepted for Oral at MUGen @ ICML'25</em>
-                <br>
-                <a href="https://github.com/OPTML-Group/Unlearn-Trace">Code</a>
-                /
-                <a href="https://arxiv.org/abs/2506.14003">arXiv</a>
-                <p>
-                  Large language models retain persistent fingerprints in their outputs and hidden activations even after unlearning. 
-                  These traces enable detection of whether a model has been “unlearned,” exposing a new vulnerability in reverse-engineering forgotten information.
-                </p>
-              </td></tr>
+          <div class="pub-row">
+            <div class="pub-img">
+              <img src="images/vlm-unlearn.png" alt="VLM Unlearn" />
+            </div>
+            <div class="pub-info">
+              <papertitle>Safety Mirage: How Spurious Correlations Undermine VLM Safety Fine-tuning</papertitle>
+              <br>
+              <strong>Yiwei Chen</strong>*,
+              <a href="https://cse.msu.edu/~yaoyugua/">Yuguang Yao*</a>,
+              <a href="https://www.yihua-zhang.com/">Yihua Zhang</a>,
+              Bingquan Shen, 
+              <a href="https://www.linkedin.com/in/gaowen-liu-1b52a610a/">Gaowen Liu</a>,
+              <a href="https://lsjxjtu.github.io/">Sijia Liu</a>
+              <br>
+              <em> Under Review </em>, 2025
+              <br>
+              <a href="https://github.com/OPTML-Group/VLM-Safety-MU">Code</a>
+              /
+              <a href="https://arxiv.org/abs/2503.11832">arXiv</a>
+              <p>
+                Conventional supervised safety fine-tuning of VLMs suffers from the “safety mirage”
+                problem due to training data bias, resulting in spurious correlations and over-rejections following one-
+                word attacks. Employing unlearning algorithms on VLMs effectively removes harmful content and
+                addresses these safety issues.
+              </p>
+            </div>
+          </div>
 
-              <tr></tr>
-              <td style="padding:20px;width:35%;vertical-align:middle">
-                <div class="one"><img src="images/vlm-unlearn.png"
-                    style="width:160%;max-width:160%; position: absolute;top: -5%">
-                </div>
-              </td>
-              <td style="padding:20px;width:65%;vertical-align:middle">
-                <papertitle>Safety Mirage: How Spurious Correlations Undermine VLM Safety Fine-tuning
-                </papertitle>
-                <br>
-                <strong>Yiwei Chen</strong>*,
-                <a href="https://cse.msu.edu/~yaoyugua/">Yuguang Yao*</a>,
-                <a href="https://www.yihua-zhang.com/">Yihua Zhang</a>,
-                Bingquan Shen, 
-                <a href="https://www.linkedin.com/in/gaowen-liu-1b52a610a/">Gaowen Liu</a>,
-                <a href="https://lsjxjtu.github.io/">Sijia Liu</a>
-                <br>
-                <em> Under Review </em>, 2025
-                <br>
-                <!-- <a href="https://alanzhangcs.github.io/tamm-page/">Project Page</a>
-                / -->
-                <a href="https://github.com/OPTML-Group/VLM-Safety-MU">Code</a>
-                /
-                <a href="https://arxiv.org/abs/2503.11832">arXiv</a>
-                <p>
-                  Conventional supervised safety fine-tuning of VLMs suffers from the “safety mirage”
-                  problem due to training data bias, resulting in spurious correlations and over-rejections following one-
-                  word attacks. Employing unlearning algorithms on VLMs effectively removes harmful content and
-                  addresses these safety issues.
-                </p>
-              </td></tr>
+          <div class="pub-row">
+            <div class="pub-img">
+              <img src="images/mftr.png" alt="MFTR" />
+            </div>
+            <div class="pub-info">
+              <papertitle>Tile Classification Based Viewport Prediction with Multi-modal Fusion Transformer</papertitle>
+              <br>
+              Zhihao Zhang*,
+              <strong>Yiwei Chen</strong>*,
+              Weizhan Zhang,
+              Caixia Yan, Qinghua Zheng, Qi Wang, Wangdu Chen
+              <br>
+              <em> ACM MM </em>, 2023
+              <br>
+              <a href="https://github.com/alanzhangcs/MFTR">Code</a>
+              /
+              <a href="https://arxiv.org/pdf/2309.14704">arXiv</a>
+              <p>
+                Propose a tile classification based viewport prediction method with Multi-modal Fusion Transformer
+                to improve the robustness of viewport prediction.
+              </p>
+            </div>
+          </div>
 
-              <tr></tr>
-              <td style="padding:20px;width:35%;vertical-align:middle">
-                <div class="one"><img src="images/mftr.png"
-                    style="width:160%;max-width:160%; position: absolute;top: -5%">
-                </div>
-              </td>
-              <td style="padding:20px;width:65%;vertical-align:middle">
-                <papertitle>Tile Classification Based Viewport Prediction with Multi-modal Fusion Transformer
-                </papertitle>
-                <br>
-                Zhihao Zhang*,
-                <strong>Yiwei Chen</strong>*,
-                Weizhan Zhang,
-                Caixia Yan, Qinghua Zheng, Qi Wang, Wangdu Chen
-                <br>
-                <em> ACM MM </em>, 2023
-                <br>
-                <a href="https://github.com/alanzhangcs/MFTR">Code</a>
-                /
-                <a href="https://arxiv.org/pdf/2309.14704">arXiv</a>
-                <p></p>
-                <p>
-                  Propose a tile classification based viewport prediction method with Multi-modal Fusion Transformer
-                  to improve the robustness of viewport prediction.
-                </p>
-              </td></tr>
-
-
-            </tbody>
-          </table>
 
         </td>
       </tr>
