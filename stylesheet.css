@@ -186,3 +186,8 @@
     margin-top: 6px; 
   }
 }
+
+.mobile-break { display: none; }
+@media (max-width: 600px) {
+  .mobile-break { display: inline; }
+}
