@@ -20,16 +20,24 @@
 </head>
 
 <body>
+  <nav class="page-toc" aria-label="Page contents">
+    <div class="toc-title">Yiwei's Homepage</div>
+    <a href="#research">Research</a>
+    <a href="#news">News</a>
+    <a href="#publications">Publications</a>
+  </nav>
+  <div class="main-with-toc">
   <table
     style="width:100%;max-width:800px;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
     <tbody>
       <tr style="padding:0px">
-        <td style="padding:0px">
+        <td style="padding:0px" class="main-td">
+          <div class="intro-section">
           <table
             style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
             <tbody>
               <tr style="padding:0px">
-                <td style="padding:2.5%;width:63%;vertical-align:middle">
+                <td style="width:63%">
                   <p style="text-align:center">
                     <name>
                       Yiwei Chen<span class="mobile-break"><br></span>（陈一苇）
@@ -46,7 +54,7 @@
                       Before that, I earned both my Master's degree and Bachelor's degree from <a href="http://en.xjtu.edu.cn/">Xi’an Jiaotong University</a> (XJTU). 
                       Also, I was admitted to the <a href="https://en.wikipedia.org/wiki/Special_Class_for_the_Gifted_Young">Young Gifted Program</a> at XJTU.
                   </p>
-                  <p style="text-align:center">
+                  <p class="nav-links" style="text-align:center">
                     <a href="mailto:chenyiw9@msu.edu">Email</a> &nbsp/&nbsp
                     <a href="https://scholar.google.com/citations?user=wmYVogQAAAAJ&hl=en">Google Scholar</a>
                     &nbsp/&nbsp
@@ -57,46 +65,49 @@
                     <!-- <a href="https://www.zhihu.com/people/pang-zi-qi-40">知乎</a> -->
                   </p>
                 </td>
-                <td style="padding:2.5%;width:25%;max-width:25%">
+                <td style="width:25%;max-width:25%">
                   <a href="images/yiwei-3.png"><img style="width:100%;max-width:100%" alt="profile photo"
                       src="images/yiwei-3.png" class="hoverZoomLink"></a>
                 </td>
               </tr>
             </tbody>
           </table>
+          </div>
 
-          <table
+          <table id="research"
             style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
             <tbody>
               <tr>
-                <td style="padding:10px;width:100%;vertical-align:middle">
+                <td class="section-cell" style="width:100%">
                   <heading>Research</heading>
+                  <div class="section-panel research-panel">
                   <p>
                     My research interests lie at the intersection of <strong>robust</strong> and
                     <strong>explainable</strong> artifical intelligence with the long-term goal of making AI systems safe and scalable.
                     Currently, I'm working on:
+                  </p>
                   <ul>
                     <li> Large Language Models, Multi-modal Language Models, Multi-modality</li>
                     <li> Reasoning, Post-training, Alignment, Trustworthy Algorithms</li>
                     <li> Interpretability, Machine Unlearning</li>
                   </ul>
-                  </p>
+                  </div>
                 </td>
               </tr>
             </tbody>
           </table>
 
-          <table
+          <table id="news"
           style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
           <tbody>
             <tr>
-              <td style="padding:10px;width:100%;vertical-align:middle">
+              <td class="section-cell news-section-cell" style="width:100%">
                 <heading>News</heading>
                 <!-- <p>
                   My research interests lie at the intersection of <strong>robust</strong> and
                   <strong>explainable</strong> artifical intelligence with the long-term goal of making AI systems safe and scalable
                   Currently, I'm working on: -->
-                <div style="max-height:160px;overflow-y:auto;padding-right:2px;">
+                <div class="news-scroll">
                 <ul>
                   <li> <strong>2026-01</strong>  Two first author papers accepted by ICLR'26! </li>
                   <li> <strong>2025-05</strong>  Joined Cisco as a Research Intern! </li>
@@ -113,8 +124,9 @@
         </table>
 
           <!-- Publications Section -->
+          <div id="publications" class="publications-section">
           <heading>Publications</heading>
-          (* denotes equal contribution)
+          <p class="pub-section-intro">(* denotes equal contribution)</p>
 
           <div class="pub-row">
             <div class="pub-img">
@@ -226,6 +238,7 @@
             </div>
           </div>
 
+          </div>
 
         </td>
       </tr>
@@ -233,11 +246,12 @@
   </table>
 
   <!-- Visitor Map Footer -->
-  <div style="text-align:center; padding:25px; margin-top:20px;">
+  <div class="footer-wrap" style="text-align:center;">
     <!-- ClustrMaps 3D Globe -->
     <div style="width:25%; max-width:200px; margin:0 auto;">
       <script type="text/javascript" id="clstr_globe" src="//clustrmaps.com/globe.js?d=0UIZjTJsFyruigzp5Z5fBYWTb_ynEnkeL5mAEtOunc0"></script>
     </div>
+  </div>
   </div>
 </body>
 
