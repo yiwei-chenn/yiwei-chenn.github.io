@@ -363,7 +363,7 @@ heading {
 
 /* Publications section — same horizontal padding as section-cell so blue line matches News */
 .publications-section {
-  margin-top: 10px;
+  margin-top: 15px;
   width: 100%;
   box-sizing: border-box;
   padding: 0 10px;
@@ -396,9 +396,21 @@ heading {
   font-size: 15px;
 }
 
-/* Footer — no box wrapper */
+/* Footer — visitor globe, ensure container has space for ClustrMaps to render */
 .footer-wrap {
   padding: 28px 24px;
   margin: 20px auto 0;
   max-width: 800px;
+  text-align: center;
+}
+.footer-globe-wrap {
+  width: 100%;
+  max-width: 220px;
+  min-height: 200px;
+  margin: 0 auto;
+  position: relative;
+}
+.footer-globe-wrap object,
+.footer-globe-wrap iframe {
+  max-width: 100%;
 }
