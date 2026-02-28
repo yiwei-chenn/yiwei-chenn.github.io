@@ -237,7 +237,7 @@ body {
   padding: 12px 0 0;
 }
 
-/* Left sidebar table of contents */
+/* Left sidebar table of contents — border-box so it doesn't overlap main content */
 .page-toc {
   position: fixed;
   left: 0;
@@ -250,6 +250,7 @@ body {
   background: rgba(255, 255, 255, 0.96);
   min-height: 120px;
   box-shadow: 1px 0 0 rgba(0, 0, 0, 0.03);
+  box-sizing: border-box;
 }
 .toc-title {
   font-weight: 700;
@@ -276,6 +277,8 @@ body {
 }
 .main-with-toc {
   margin-left: 180px;
+  position: relative;
+  z-index: 50;
 }
 @media (max-width: 900px) {
   .page-toc {
@@ -324,9 +327,14 @@ td.main-td {
   padding-top: 2px;
 }
 .nav-links a {
-  padding: 2px 4px;
+  display: inline-block;
+  padding: 4px 6px;
   border-radius: 4px;
   transition: color 0.15s ease, background 0.15s ease;
+  cursor: pointer;
+  pointer-events: auto;
+  position: relative;
+  z-index: 1;
 }
 .nav-links a:hover {
   background: rgba(240, 146, 40, 0.1);
