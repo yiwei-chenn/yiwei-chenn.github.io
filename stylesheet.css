@@ -371,7 +371,7 @@ heading {
 
 /* Publications section — same horizontal padding as section-cell so blue line matches News */
 .publications-section {
-  margin-top: 15px;
+  margin-top: 12px;
   width: 100%;
   box-sizing: border-box;
   padding: 0 10px;
@@ -383,6 +383,9 @@ heading {
 }
 .pub-row {
   padding: 22px 20px;
+}
+.pub-row:first-of-type {
+  padding-top: 6px;
   border-radius: 10px;
   transition: background 0.2s ease;
 }
