@@ -352,14 +352,48 @@ body {
   z-index: 50;
 }
 @media (max-width: 720px) {
+  .page-toc {
+    height: auto;
+    min-height: 54px;
+  }
   .nav-inner {
+    flex-wrap: wrap;
     padding: 0 16px;
+    height: auto;
+    gap: 0;
+  }
+  .toc-title {
+    flex: 1;
+    line-height: 54px;
+  }
+  .theme-toggle {
+    line-height: 54px;
   }
   .nav-center {
+    position: static;
+    transform: none;
+    width: 100%;
+    order: 3;
+    overflow-x: auto;
+    border-top: 1px solid #f0f0f0;
+    scrollbar-width: none;
+  }
+  .nav-center::-webkit-scrollbar {
     display: none;
   }
+  .nav-center a {
+    height: 40px;
+    font-size: 14px;
+    padding: 0 12px;
+    white-space: nowrap;
+  }
+  .nav-center a::after {
+    bottom: 0;
+    left: 12px;
+    right: 12px;
+  }
   .main-with-toc {
-    padding-top: 62px;
+    padding-top: 94px;
   }
 }
 
