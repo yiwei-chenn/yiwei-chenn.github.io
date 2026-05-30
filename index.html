@@ -15,17 +15,29 @@
   <meta name="author" content="Yiwei Chen">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..900;1,8..60,300..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" type="text/css" href="stylesheet.css">
+  <script>(function(){if(localStorage.getItem('theme')==='dark'){document.documentElement.setAttribute('data-theme','dark');}})();</script>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌏</text></svg>">
 </head>
 
 <body>
   <nav class="page-toc" aria-label="Page contents">
-    <div class="toc-title">Yiwei's Homepage</div>
-    <a href="#research">Research</a>
-    <a href="#news">News</a>
-    <a href="#internships">Internships</a>
-    <a href="#publications">Publications</a>
+    <div class="nav-inner">
+      <div class="toc-title">Yiwei Chen</div>
+      <div class="nav-center">
+        <a href="#research">Research</a>
+        <a href="#news">News</a>
+        <a href="#internships">Internships</a>
+        <a href="#publications">Publications</a>
+      </div>
+      <button class="theme-toggle" aria-label="Toggle dark mode" id="theme-btn">
+        <i class="fa-solid fa-moon"></i>
+      </button>
+    </div>
   </nav>
   <div class="main-with-toc">
   <table
@@ -34,45 +46,30 @@
       <tr style="padding:0px">
         <td style="padding:0px" class="main-td">
           <div class="intro-section">
-          <table
-            style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
-            <tbody>
-              <tr style="padding:0px">
-                <td style="width:63%">
-                  <p style="text-align:center">
-                    <name>
-                      Yiwei Chen<span class="mobile-break"><br></span>（陈一苇）
-                    </name>
-                  </p>
-                  <p> I am a second-year CS Ph.D. student focusing on Trustworthy ML and  Scalable AI at <a
-                      href="https://engineering.msu.edu/about/departments/cse">Michigan State University</a> (MSU),
-                      where my advisor is Prof. <a href="https://lsjxjtu.github.io/">Sijia Liu</a>.
-                      <!-- Before that, I graduated from <a href="http://en.xjtu.edu.cn/">Xi’an Jiaotong University</a>
-                      (XJTU) with Master degree in Computer Science, advised by Prof. <a
-                      href="https://gr.xjtu.edu.cn/en/web/liukeen/4">Jun Liu</a>,
-                      and obtained Bachelor degree within <a
-                      href="https://en.wikipedia.org/wiki/Special_Class_for_the_Gifted_Young">Young Gifted Program</a> at XJTU. -->
-                      Before that, I earned both my Master's degree and Bachelor's degree from <a href="http://en.xjtu.edu.cn/">Xi’an Jiaotong University</a> (XJTU). 
-                      Also, I was admitted to the <a href="https://en.wikipedia.org/wiki/Special_Class_for_the_Gifted_Young">Young Gifted Program</a> at XJTU.
-                  </p>
-                  <p class="nav-links" style="text-align:center">
-                    <a href="mailto:chenyiw9@msu.edu">Email</a> &nbsp/&nbsp
-                    <a href="https://scholar.google.com/citations?user=wmYVogQAAAAJ&hl=en">Google Scholar</a>
-                    &nbsp/&nbsp
-                    <a href="https://github.com/yiwei-chenn">Github</a> &nbsp/&nbsp
-                    <a href="https://x.com/yiwei_chen_">X</a> &nbsp/&nbsp
-                    <a href="https://www.linkedin.com/in/yiwei-melody-chen/">LinkedIn</a> &nbsp/&nbsp
-                    <a href="./files/yiwei_cv.pdf">CV</a>
-                    <!-- <a href="https://www.zhihu.com/people/pang-zi-qi-40">知乎</a> -->
-                  </p>
-                </td>
-                <td style="width:25%;max-width:25%">
-                  <a href="images/yiwei-3.png"><img style="width:100%;max-width:100%" alt="profile photo"
-                      src="images/yiwei-3.png" class="hoverZoomLink"></a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+            <div class="about-grid">
+              <div class="about-text">
+                <h1 class="about-name">Yiwei Chen <span class="about-name-cn">（陈一苇）</span></h1>
+                <p>I am a second-year CS Ph.D. student focusing on Trustworthy ML and Scalable AI at <a
+                    href="https://engineering.msu.edu/about/departments/cse">Michigan State University</a> (MSU),
+                    where my advisor is Prof. <a href="https://lsjxjtu.github.io/">Sijia Liu</a>.
+                    Before that, I earned both my Master's degree and Bachelor's degree from
+                    <a href="http://en.xjtu.edu.cn/">Xi'an Jiaotong University</a> (XJTU).
+                    Also, I was admitted to the
+                    <a href="https://en.wikipedia.org/wiki/Special_Class_for_the_Gifted_Young">Young Gifted Program</a> at XJTU.
+                </p>
+                <div class="social-links social-links-full">
+                  <a href="./files/yiwei_cv.pdf" class="social-btn"><i class="fa-regular fa-file"></i> CV</a>
+                  <a href="mailto:chenyiw9@msu.edu" class="social-btn"><i class="fa-regular fa-envelope"></i> Email</a>
+                  <a href="https://scholar.google.com/citations?user=wmYVogQAAAAJ&hl=en" class="social-btn"><i class="fa-solid fa-graduation-cap"></i> Scholar</a>
+                  <a href="https://github.com/yiwei-chenn" class="social-btn"><i class="fa-brands fa-github"></i> GitHub</a>
+                  <a href="https://www.linkedin.com/in/yiwei-melody-chen/" class="social-btn"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
+                  <a href="https://x.com/yiwei_chen_" class="social-btn"><i class="fa-brands fa-x-twitter"></i> Twitter</a>
+                </div>
+              </div>
+              <div class="about-photo">
+                <img src="images/yiwei-4.png" alt="profile photo" class="hoverZoomLink">
+              </div>
+            </div>
           </div>
 
           <table id="research"
@@ -89,10 +86,10 @@
                   </p>
                   <ul>
                     <li> Large Language Models, Multi-Modal Language Models, Multi-Modality</li>
-                    <li> Reasoning, Post-Training, Agentic Systems</li>
+                    <li> Agentic Systems, Reasoning, Post-Training</li>
                     <li> Alignment, Trustworthy Algorithms, Interpretability, Machine Unlearning</li>
                   </ul>
-                  </div>
+                    </div>
                 </td>
               </tr>
             </tbody>
@@ -120,7 +117,7 @@
                   <li> <strong>2024-08</strong>  Started PhD journey at Michigan State University! </li>
                   <li> <strong>2024-06</strong>  Graduated from Xi'an Jiaotong University!</li>
                 </ul>
-                </div>
+                  </div>
                 <!-- </p> -->
               </td>
             </tr>
@@ -164,7 +161,7 @@
                       </tbody>
                     </table>
 
-                  </div>
+                    </div>
                 </td>
               </tr>
             </tbody>
@@ -181,7 +178,7 @@
           <div class="pub-row">
             <div class="pub-img">
               <img src="images/VLM_unlearn_teasor.png" alt="VLM Unlearn" />
-            </div>
+              </div>
             <div class="pub-info">
               <papertitle>Safety Mirage: How Spurious Correlations Undermine VLM Safety Fine-Tuning and Can Be Mitigated by Machine Unlearning</papertitle>
               <br>
@@ -192,28 +189,26 @@
               <a href="https://www.linkedin.com/in/gaowen-liu-1b52a610a/">Gaowen Liu</a>,
               <a href="https://lsjxjtu.github.io/">Sijia Liu</a>
               <br>
-              <em> ICLR</em>, 2026
+              <em class="accepted">ICLR 2026</em>
               <br>
-              <a href="https://github.com/OPTML-Group/VLM-Safety-MU">Code</a>
-              /
-              <a href="https://arxiv.org/abs/2503.11832">Paper</a>
+              <span class="pub-links"><a href="https://github.com/OPTML-Group/VLM-Safety-MU">Code</a><a href="https://arxiv.org/abs/2503.11832">Paper</a></span>
               <p>
                 <!-- Conventional supervised safety fine-tuning of VLMs suffers from the “safety mirage”
                 problem due to training data bias, resulting in spurious correlations and over-rejections following one-
                 word attacks. Employing unlearning algorithms on VLMs effectively removes harmful content and
                 addresses these safety issues. -->
-                Conventional safety fine-tuning of MLLMs suffers from a ``safety mirage'' caused by training bias, 
+                Conventional safety fine-tuning of MLLMs suffers from a “safety mirage” caused by training bias, 
                 leading to spurious correlations and over-rejections under one-word attacks. 
                 Employing unlearning algorithms effectively remove harmful content and mitigate these issues.
               </p>
+              </div>
             </div>
-          </div>
 
 
           <div class="pub-row">
             <div class="pub-img">
               <img src="images/LLM_unlearn_trace.png" alt="Unlearn Trace" />
-            </div>
+              </div>
             <div class="pub-info">
               <papertitle>Unlearning Isn't Invisible: Detecting Unlearning Traces  in LLMs from Model Outputs</papertitle>
               <br>
@@ -223,19 +218,15 @@
               <a href="https://qingqu.engin.umich.edu/">Qing Qu</a>,
               <a href="https://lsjxjtu.github.io/">Sijia Liu</a>
               <br>
-              <em> ICLR</em>, 2026. <em> Short version accepted for Oral at MUGen @ ICML'25 </em>
-              <!-- <br>
-              <em> Short version accepted for Oral at MUGen @ ICML'25 </em> -->
+              <em class="accepted">ICLR 2026</em><em class="oral">Oral @ MUGen ICML'25</em>
               <br>
-              <a href="https://github.com/OPTML-Group/Unlearn-Trace">Code</a>
-              /
-              <a href="https://arxiv.org/abs/2506.14003">Paper</a>
+              <span class="pub-links"><a href="https://github.com/OPTML-Group/Unlearn-Trace">Code</a><a href="https://arxiv.org/abs/2506.14003">Paper</a></span>
               <p>
                 Large language models retain persistent fingerprints in their outputs and hidden activations even after unlearning. 
                 These traces enable detection of whether a model has been “unlearned,” exposing a new vulnerability in reverse-engineering forgotten information.
               </p>
+              </div>
             </div>
-          </div>
 
 
 
@@ -243,7 +234,7 @@
           <div class="pub-row">
             <div class="pub-img">
               <img src="images/LLM_biometric.jpeg" alt="LLM Lineage" />
-            </div>
+              </div>
             <div class="pub-info">
               <papertitle>Who Built This Model? Tracing LLM Lineage via Spectral Fingerprints in Weight Space</papertitle>
               <br>
@@ -251,20 +242,20 @@
               <a href="https://bio.bingqi-shang.com/">Bingqi Shang</a>*,
               <a href="https://lsjxjtu.github.io/">Sijia Liu</a>
               <br>
-              <em>In Submission</em>, 2026
+              <em class="review">In Submission 2026</em>
               <br>
-              <a href="https://drive.google.com/file/d/1CwEM_eP1LDkEoBvLZH7anCh2Adhs81OK/view?usp=sharing">Paper</a>
+              <span class="pub-links"><a href="https://drive.google.com/file/d/1CwEM_eP1LDkEoBvLZH7anCh2Adhs81OK/view?usp=sharing">Paper</a></span>
               <p>
                 A geometric fingerprinting framework to trace LLM lineage in weight space, combining spectral energy for coarse-grained discrimination and subspace alignment for fine-grained analysis, enabling data-free model provenance identification.
               </p>
+              </div>
             </div>
-          </div>
 
 
           <div class="pub-row">
             <div class="pub-img">
               <img src="images/LLM_cyber.png" alt="Cybersecurity Exploit Benchmark" />
-            </div>
+              </div>
             <div class="pub-info">
               <papertitle>Data-Centric Benchmarking of Exploit Generation in LLMs: Understanding the Impact of Fine-Tuning</papertitle>
               <br>
@@ -274,20 +265,20 @@
               Vinny Parla,
               Ganesh Sundaram
               <br>
-              <em>Manuscript</em>, 2026
+              <em class="accepted">Manuscript 2026</em>
               <br>
-              <a href="https://drive.google.com/file/d/1b44nhbEdIwzdBB2GN1zR2Gd5gY7Gg4VN/view?usp=sharing">Paper</a>
+              <span class="pub-links"><a href="https://drive.google.com/file/d/1b44nhbEdIwzdBB2GN1zR2Gd5gY7Gg4VN/view?usp=sharing">Paper</a></span>
               <p>
                 The first data-centric benchmark for CVE-conditioned exploit generation with a 6-level context hierarchy and 8-criterion evaluation framework, benchmarking 17 LLMs. Fine-tuned Qwen3-8B with reasoning-aware fine-tuning achieves +42.5% improvement, competitive with frontier LLMs.
               </p>
+              </div>
             </div>
-          </div>
 
 
           <div class="pub-row">
             <div class="pub-img">
               <img src="images/Backdoor_unlearn.png" alt="Backdoor Unlearn" />
-            </div>
+              </div>
             <div class="pub-info">
               <papertitle>Forgetting to Forget: Attention Sink as A Gateway for Backdooring LLM Unlearning</papertitle>
               <br>
@@ -297,24 +288,22 @@
               Bingquan Shen, 
               <a href="https://lsjxjtu.github.io/">Sijia Liu</a>
               <br>
-              <em> Under Review</em>, 2025
+              <em class="review">In Submission 2026</em>
               <br>
-              <a href="https://github.com/OPTML-Group/Unlearn-Backdoor">Code</a>
-              /
-              <a href="https://arxiv.org/abs/2510.17021">Paper</a>
+              <span class="pub-links"><a href="https://github.com/OPTML-Group/Unlearn-Backdoor">Code</a><a href="https://arxiv.org/abs/2510.17021">Paper</a></span>
               <p>
                 Demonstrated that LLM unlearning can be compromised through attention-sink-guided backdoor unlearning, 
                 where triggers placed at attention sinks enable models to recover forgotten knowledge 
                 while maintaining normal behavior without triggers.
               </p>
+              </div>
             </div>
-          </div>
 
 
           <div class="pub-row">
             <div class="pub-img">
               <img src="images/mftr.png" alt="MFTR" />
-            </div>
+              </div>
             <div class="pub-info">
               <papertitle>Tile Classification Based Viewport Prediction with Multi-modal Fusion Transformer</papertitle>
               <br>
@@ -323,19 +312,17 @@
               Weizhan Zhang,
               Caixia Yan, Qinghua Zheng, Qi Wang, Wangdu Chen
               <br>
-              <em> ACM MM</em>, 2023
+              <em class="accepted">ACM MM 2023</em>
               <br>
-              <a href="https://github.com/alanzhangcs/MFTR">Code</a>
-              /
-              <a href="https://arxiv.org/pdf/2309.14704">Paper</a>
+              <span class="pub-links"><a href="https://github.com/alanzhangcs/MFTR">Code</a><a href="https://arxiv.org/pdf/2309.14704">Paper</a></span>
               <p>
                 Propose a tile classification based viewport prediction method with Multi-modal Fusion Transformer
                 to improve the robustness of viewport prediction.
               </p>
+              </div>
             </div>
-          </div>
 
-          </div>
+            </div>
 
         </td>
       </tr>
@@ -347,9 +334,20 @@
     <div class="footer-globe-wrap">
       <!-- ClustrMaps 3D Globe - use https for GitHub Pages -->
       <script type="text/javascript" id="clstr_globe" src="https://clustrmaps.com/globe.js?d=0UIZjTJsFyruigzp5Z5fBYWTb_ynEnkeL5mAEtOunc0"></script>
-    </div>
+      </div>
   </div>
   </div>
+  <script>
+    const _btn = document.getElementById('theme-btn');
+    const _root = document.documentElement;
+    function _applyTheme(dark) {
+      _root.setAttribute('data-theme', dark ? 'dark' : 'light');
+      _btn.innerHTML = dark ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
+      localStorage.setItem('theme', dark ? 'dark' : 'light');
+    }
+    _btn.addEventListener('click', () => _applyTheme(_root.getAttribute('data-theme') !== 'dark'));
+    if (_root.getAttribute('data-theme') === 'dark') _btn.innerHTML = '<i class="fa-solid fa-sun"></i>';
+  </script>
 </body>
 
 </html>
