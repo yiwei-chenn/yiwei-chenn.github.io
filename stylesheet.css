@@ -537,7 +537,7 @@ heading {
 
 /* Publications section — same horizontal padding as section-cell so blue line matches News */
 .publications-section {
-  margin-top: 12px;
+  margin-top: 24px;
   width: 100%;
   box-sizing: border-box;
   padding: 0 10px;
@@ -602,9 +602,9 @@ em.review {
   border-radius: 5px;
   font-style: normal;
   font-size: 13px;
-  font-weight: 500;
-  background: #f0f0f0;
-  color: #777;
+  font-weight: 600;
+  background: #deeafc;
+  color: #1565c0;
   margin-right: 4px;
 }
 
@@ -690,8 +690,8 @@ em.review {
   color: #86efac;
 }
 [data-theme="dark"] em.review {
-  background: #27272a;
-  color: #a1a1aa;
+  background: rgba(37,99,235,0.25);
+  color: #93c5fd;
 }
 [data-theme="dark"] .pub-links a {
   border-color: #60a5fa;
@@ -741,4 +741,17 @@ em.review {
 .footer-globe-wrap object,
 .footer-globe-wrap iframe {
   max-width: 100%;
+}
+.site-footer {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 22px 24px;
+  border-top: 1px solid #ececec;
+  text-align: center;
+  font-size: 14px;
+  color: #999;
+}
+[data-theme="dark"] .site-footer {
+  border-top-color: #27272a;
+  color: #71717a;
 }
