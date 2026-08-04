@@ -814,7 +814,7 @@ em.review {
   }
 
   td.main-td {
-    padding: 0 14px 20px;
+    padding: 0 20px 20px;
   }
   .section-cell {
     padding: 5px 0 !important;
@@ -889,8 +889,9 @@ em.review {
   /* Publications stack: image above text */
   .pub-row {
     flex-direction: column;
-    padding: 14px 10px;
-    margin-bottom: 4px;
+    /* no side padding so pub text lines up with the section headings */
+    padding: 14px 0;
+    margin: 0 0 4px;
   }
   .pub-img {
     flex: 0 0 auto;
@@ -913,11 +914,14 @@ em.review {
     padding: 4px 12px;
   }
 
+  .nav-inner {
+    padding: 0 20px;
+  }
   .footer-wrap {
-    padding: 20px 12px;
+    padding: 20px;
   }
   .site-footer {
-    padding: 18px 14px;
+    padding: 18px 20px;
   }
 }
 
