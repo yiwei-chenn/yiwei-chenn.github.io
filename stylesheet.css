@@ -250,12 +250,23 @@ name {
 /* ========== Page-wide polish ========== */
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 body {
   background: #fafafa;
   line-height: 1.55;
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
+}
+/* Never let long URLs / titles push the layout wider than the screen */
+p, li, td, .pub-info, .about-text {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+img {
+  max-width: 100%;
 }
 
 /* ===== Top navbar ===== */
@@ -754,4 +765,177 @@ em.review {
 [data-theme="dark"] .site-footer {
   border-top-color: #27272a;
   color: #71717a;
+}
+
+/* ==========================================================================
+   Mobile / responsive
+   ========================================================================== */
+
+/* Tablets and small laptops */
+@media (max-width: 820px) {
+  .intro-section {
+    padding: 16px 6px 12px;
+  }
+  .about-grid {
+    gap: 24px;
+  }
+  .pub-row {
+    padding: 16px 10px;
+  }
+}
+
+/* The 6 social buttons must be allowed to wrap instead of being squeezed */
+@media (max-width: 700px) {
+  .social-links-full {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+  .social-links-full .social-btn {
+    flex: 0 1 auto;
+  }
+}
+
+/* Phones */
+@media (max-width: 600px) {
+  body,
+  td,
+  th,
+  tr,
+  p,
+  a,
+  strong {
+    font-size: 15.5px;
+  }
+  heading {
+    font-size: 20px;
+  }
+  papertitle {
+    font-size: 16px;
+  }
+
+  td.main-td {
+    padding: 0 14px 20px;
+  }
+  .section-cell {
+    padding: 5px 0 !important;
+  }
+  .publications-section {
+    padding: 0;
+  }
+  .intro-section {
+    padding: 12px 0 10px;
+  }
+
+  .hoverZoomLink {
+    width: 148px;
+    height: 148px;
+  }
+  .about-text p {
+    line-height: 1.65;
+  }
+
+  .social-links-full {
+    justify-content: center;
+    gap: 7px;
+  }
+  .social-btn {
+    padding: 5px 12px;
+    font-size: 13.5px;
+  }
+
+  .news-scroll {
+    max-height: 210px;
+    padding-right: 6px;
+  }
+
+  /* Internships: logo shrinks, dates drop under the role on narrow screens */
+  .internship-table,
+  .internship-table tbody,
+  .internship-table tr {
+    display: block;
+    width: 100%;
+  }
+  .internship-table tr {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 6px 0;
+  }
+  .internship-table td {
+    display: block;
+    padding: 0 !important;
+    width: auto !important;
+  }
+  .internship-table .intern-logo {
+    flex: 0 0 52px;
+  }
+  .internship-table .intern-logo img {
+    width: 48px !important;
+    height: 48px !important;
+    margin: 0 !important;
+  }
+  .internship-table .intern-role {
+    flex: 1 1 60%;
+    padding-left: 10px !important;
+    line-height: 1.4;
+  }
+  .internship-table .intern-date {
+    flex: 1 1 100%;
+    text-align: left !important;
+    padding: 2px 0 0 58px !important;
+    font-size: 13.5px;
+  }
+
+  /* Publications stack: image above text */
+  .pub-row {
+    flex-direction: column;
+    padding: 14px 10px;
+    margin-bottom: 4px;
+  }
+  .pub-img {
+    flex: 0 0 auto;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    margin: 0 0 10px 0;
+  }
+  .pub-info,
+  .pub-row .pub-info {
+    margin-top: 0;
+  }
+  .pub-info p {
+    font-size: 14.5px;
+  }
+  .pub-links {
+    margin-top: 8px;
+  }
+  .pub-links a {
+    padding: 4px 12px;
+  }
+
+  .footer-wrap {
+    padding: 20px 12px;
+  }
+  .site-footer {
+    padding: 18px 14px;
+  }
+}
+
+/* Very small phones */
+@media (max-width: 380px) {
+  .about-name {
+    font-size: 22px;
+  }
+  .about-name-cn {
+    display: block;
+    font-size: 17px;
+  }
+  .hoverZoomLink {
+    width: 128px;
+    height: 128px;
+  }
+  .nav-center a {
+    padding: 0 10px;
+    font-size: 13.5px;
+  }
 }
