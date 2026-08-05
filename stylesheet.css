@@ -446,6 +446,7 @@ td.main-td {
 .about-name-cn {
   font-weight: 400;
   color: #555;
+  margin-left: 0.5em;
 }
 .about-text p {
   margin: 0 0 14px 0;
@@ -737,17 +738,21 @@ em.review {
 
 /* Footer — visitor globe, ensure container has space for ClustrMaps to render */
 .footer-wrap {
-  padding: 28px 24px;
+  padding: 0 24px;
   margin: 20px auto 0;
   max-width: 800px;
   text-align: center;
 }
+/* No min-height: if the ClustrMaps widget fails to load we get no empty gap,
+   and the wrapper still grows to fit the globe when it does load. */
 .footer-globe-wrap {
   width: 100%;
   max-width: 220px;
-  min-height: 200px;
   margin: 0 auto;
   position: relative;
+}
+.footer-globe-wrap:has(:not(script)) {
+  padding: 28px 0;
 }
 .footer-globe-wrap object,
 .footer-globe-wrap iframe {
@@ -918,7 +923,7 @@ em.review {
     padding: 0 20px;
   }
   .footer-wrap {
-    padding: 20px;
+    padding: 0 20px;
   }
   .site-footer {
     padding: 18px 20px;

@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Who Built This Model? Tracing LLM Lineage via Spectral Fingerprints in Weight Space</title>
+  <meta name="description"
+    content="COLM 2026. Open-weight LLMs carry intrinsic biometrics: an SVD of each weight matrix yields spectral energy and subspace alignment, two complementary fingerprints that recover model lineage from weights alone.">
+  <meta name="keywords" content="LLM lineage, model provenance, fingerprinting, weight space, SVD, spectral energy, subspace alignment, COLM 2026">
+  <meta name="author" content="Yiwei Chen, Bingqi Shang, Sijia Liu">
+
+  <meta property="og:title" content="Who Built This Model? Tracing LLM Lineage via Spectral Fingerprints in Weight Space">
+  <meta property="og:description" content="COLM 2026. Two complementary weight-space fingerprints recover LLM lineage with no prompts, no outputs and no training data.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://yiwei-chenn.github.io/llm-biometrics/static/images/fig1_framework.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧬</text></svg>">
+
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="./static/index.css">
+
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+      options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+
+<body>
+
+  <!-- ===================== Left index ===================== -->
+  <nav class="side-toc" aria-label="Page contents">
+    <a class="side-toc-home" href="../">&larr; Yiwei Chen</a>
+    <p class="side-toc-heading">Contents</p>
+    <ul>
+      <li><a href="#abstract">Abstract</a></li>
+      <li><a href="#glance">At a glance</a></li>
+      <li><a href="#lookup">Look up a pair</a></li>
+      <li><a href="#problem">The problem</a></li>
+      <li><a href="#baselines">Why baselines fail</a></li>
+      <li class="toc-group">Two fingerprints
+        <ul>
+          <li><a href="#trace">Spectral energy</a></li>
+          <li><a href="#subspace">Subspace alignment</a></li>
+        </ul>
+      </li>
+      <li><a href="#algorithms">Algorithm signatures</a></li>
+      <li><a href="#code">Code</a></li>
+      <li><a href="#BibTeX">BibTeX</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-body">
+
+  <!-- ===================== Title / authors / links ===================== -->
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <span class="publication-venue">Conference on Language Modeling (COLM) 2026</span>
+            <h1 class="title is-2 publication-title">
+              Who Built This Model?<br>Tracing LLM Lineage via Spectral Fingerprints in Weight Space
+            </h1>
+
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                <a href="https://yiwei-chenn.github.io/">Yiwei Chen</a><sup>*</sup>,</span>
+              <span class="author-block">
+                <a href="https://bio.bingqi-shang.com/">Bingqi Shang</a><sup>*</sup>,</span>
+              <span class="author-block">
+                <a href="https://lsjxjtu.github.io/">Sijia Liu</a></span>
+            </div>
+
+            <div class="is-size-5 publication-authors affiliation-block">
+              <span class="author-block">Michigan State University</span>
+            </div>
+            <div class="eql-cntrb"><sup>*</sup>Equal contribution</div>
+
+            <div class="publication-links">
+              <span class="link-block">
+                <!-- TODO: swap for the arXiv link once the preprint is posted -->
+                <a href="https://drive.google.com/file/d/1CwEM_eP1LDkEoBvLZH7anCh2Adhs81OK/view?usp=sharing"
+                  class="external-link button is-normal is-rounded">
+                  <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://github.com/OPTML-Group/LLM-Biometrics"
+                  class="external-link button is-normal is-rounded">
+                  <span class="icon"><i class="fab fa-github"></i></span>
+                  <span>Code</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="#BibTeX" class="external-link button is-normal is-rounded">
+                  <span class="icon"><i class="fas fa-quote-left"></i></span>
+                  <span>BibTeX</span>
+                </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== Teaser ===================== -->
+  <section class="hero teaser">
+    <div class="container is-max-desktop">
+      <div class="hero-body">
+        <div class="figure">
+          <img src="./static/images/fig1_framework.png"
+            alt="Overview of the geometric fingerprinting framework: SVD splits each weight matrix into spectral energy and subspace alignment, which together resolve three lineage scenarios.">
+          <p class="figure-caption">
+            <strong>The framework.</strong> One SVD per weight matrix yields two complementary readings.
+            <em>Spectral energy</em> ($\Sigma$) captures global magnitude and separates model families and scales.
+            <em>Subspace alignment</em> ($\mathbf{U}$) captures directional geometry and separates closely related
+            models. Together they resolve a lineage hierarchy of independent origin, same series and shared base,
+            from weights alone.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== Abstract ===================== -->
+  <section class="section" id="abstract" style="padding-top: 1.5rem;">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3 section-title">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+              Open-weight large language models (LLMs) are increasingly developed through complex, multi-stage
+              pipelines, leading to intricate lineage relationships that reflect model origin, ownership, and
+              evolution. Understanding these relationships is important for model provenance, governance, and
+              supply-chain integrity. In this work, we investigate the notion of LLM <em>“biometrics”</em>, analogous
+              to human biometrics, to ask whether LLMs exhibit intrinsic fingerprints in weight space alone,
+              without access to input data, that reveal their origin and lineage. We formulate this as a lineage
+              discrimination problem, distinguishing among independent-origin, same-series, and shared-base models.
+              To characterize these relationships, we propose a unified <strong>geometric fingerprinting
+              framework</strong> that analyzes weight matrices from two complementary perspectives: (i) <strong>spectral
+              energy</strong>, captured by singular value distributions to encode global magnitude patterns, and (ii)
+              <strong>subspace alignment</strong>, quantified via subspace deviations to capture directional geometry.
+              Our analysis uncovers a clear hierarchy of structural similarity in weight space: spectral energy
+              reliably distinguishes independently trained models and different model families, while subspace
+              alignment enables fine-grained discrimination among closely related models, including variations in
+              dataset scale and post-training procedures. Extensive experiments on over 110 diverse open-weight LLM
+              pairs demonstrate that weight-space geometry provides a robust and interpretable signal for model
+              lineage, enabling coarse-grained regime separation and fine-grained discrimination within shared-base
+              models.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== Two fingerprints, at a glance ===================== -->
+  <section class="section" id="glance" style="padding-top: 0;">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
+          <span class="subtitle-kicker">At a glance</span>
+          <h2 class="title is-3 section-title">Two fingerprints, one SVD</h2>
+          <div class="content has-text-justified">
+            <p>
+              The same decomposition answers two different questions, and neither one alone is enough.
+            </p>
+          </div>
+
+          <div class="method-grid">
+            <div class="method-card">
+              <h4>Trace (spectral energy)</h4>
+              <p class="metric">0.850</p>
+              <p class="metric-label">AUC separating independent-origin from same-series pairs
+                (PDF 0.655 &nbsp;·&nbsp; AWM 0.256)</p>
+              <p>Answers <em>are these two models related at all?</em> Needs only a Frobenius norm, no SVD, and
+                works across any architecture or depth.</p>
+            </div>
+            <div class="method-card">
+              <h4>Subspace alignment (direction)</h4>
+              <p class="metric">0.18 to 0.98</p>
+              <p class="metric-label">Score range across shared-base pairs
+                (AWM, HuReF and PDF all report 0.997 to 1.000)</p>
+              <p>Answers <em>how far has this variant moved from its base?</em> Resolves data scale and post-training
+                algorithm exactly where prior white-box metrics saturate.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== Pair lookup ===================== -->
+  <section class="section" id="lookup">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
+          <span class="subtitle-kicker">Explore</span>
+          <h2 class="title is-3 section-title">Look up a model pair</h2>
+          <div class="content has-text-justified">
+            <p>
+              Every pair from the model zoo in <code>configs/pairs/</code>, with the scores as reported in the paper.
+              Pick a model on the left and the menu on the right narrows to the models it was actually compared
+              against.
+            </p>
+          </div>
+
+          <div class="lookup">
+            <div class="lookup-controls">
+              <div class="lookup-field">
+                <label for="model-a">Model A</label>
+                <div class="select is-fullwidth">
+                  <select id="model-a"></select>
+                </div>
+              </div>
+              <div class="lookup-vs">vs</div>
+              <div class="lookup-field">
+                <label for="model-b">Model B</label>
+                <div class="select is-fullwidth">
+                  <select id="model-b"></select>
+                </div>
+              </div>
+            </div>
+
+            <div class="lookup-result" id="lookup-result" aria-live="polite"></div>
+          </div>
+
+          <p class="table-note" id="lookup-note"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== Problem ===================== -->
+  <section class="section" id="problem" style="padding-top: 0;">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
+          <span class="subtitle-kicker">The problem</span>
+          <h2 class="title is-3 section-title">Lineage is a hierarchy, not a yes/no question</h2>
+          <div class="content has-text-justified">
+            <p>
+              Open-weight models are built on top of one another through fine-tuning, alignment, distillation and
+              merging. We formulate tracing that ancestry as <strong>hierarchical lineage discrimination</strong> over
+              three regimes of increasing shared information, and ask for a single similarity function
+              $S(\theta_a, \theta_b)$ that respects the ordering
+            </p>
+            <p>
+              $$S_{\text{independent-origin}} \;<\; S_{\text{same-series}} \;<\; S_{\text{shared-base}}$$
+            </p>
+          </div>
+
+          <div class="figure is-narrow">
+            <img src="./static/images/fig4_regimes.png"
+              alt="Three lineage regimes: independent-origin, same-series, and shared-base models.">
+            <p class="figure-caption">
+              <strong>S1 Independent-origin.</strong> Trained without shared initialization, data or pipeline.
+              <strong>S2 Same-series.</strong> Shared architecture and training pipeline, differing in scale.
+              <strong>S3 Shared-base.</strong> A common pretrained model diverging through post-training.
+            </p>
+          </div>
+
+          <div class="content has-text-justified">
+            <p>
+              The regimes are reference points rather than an exhaustive taxonomy, and a good metric should behave
+              continuously between them. Cross-series pairs bear this out. Qwen2.5 against Qwen3, which share a provider
+              but differ in architecture and pretraining corpus, score a mean Trace of <strong>0.479</strong>, sitting
+              between the independent-origin and same-series average scores.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== Baselines fail ===================== -->
+  <section class="section is-light-bg" id="baselines">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
+          <span class="subtitle-kicker">Motivation</span>
+          <h2 class="title is-3 section-title">Existing weight-space fingerprints collapse the hierarchy</h2>
+          <div class="content has-text-justified">
+            <p>
+              Prior white-box methods reduce weight space to coarse summary statistics: HuReF builds algebraic
+              attention-weight fingerprints, AWM applies CKA with Hungarian layer matching, and PDF correlates
+              layer-wise parameter statistics. Each detects that shared-base models are related, and little else.
+            </p>
+          </div>
+
+          <div class="figure is-bordered">
+            <img src="./static/images/fig5_boxplot.png"
+              alt="Box plots of similarity scores for AWM, HuReF, PDF and Trace across the three lineage regimes.">
+            <p class="figure-caption">
+              Similarity scores per method across the three regimes. AWM pins S1 and S2 to the floor and HuReF cannot
+              be evaluated on S2 at all. PDF pushes both up near 0.8 with heavy overlap. Only Trace produces a
+              monotone, visibly separated ordering.
+            </p>
+          </div>
+
+          <div class="table-wrap">
+            <table class="result-table">
+              <thead>
+                <tr>
+                  <th>Applicability</th>
+                  <th>S1<br>Indep. origin</th>
+                  <th>S2<br>Same series</th>
+                  <th>S3<br>Shared base</th>
+                  <th>Data<br>scale</th>
+                  <th>Post-train<br>algorithm</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>AWM</td><td>✗</td><td>✗</td><td>✓</td><td>✗</td><td>✗</td></tr>
+                <tr><td>HuReF</td><td>✗</td><td>✗</td><td>✓</td><td>✗</td><td>✗</td></tr>
+                <tr><td>PDF</td><td>✗</td><td>✗</td><td>✓</td><td>✗</td><td>✗</td></tr>
+                <tr class="group-sep">
+                  <td class="ours">Ours</td>
+                  <td class="ours">✓</td><td class="ours">✓</td><td class="ours">✓</td>
+                  <td class="ours">✓</td><td class="ours">✓</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== Fingerprint 1 ===================== -->
+  <section class="section" id="trace">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
+          <span class="subtitle-kicker">Fingerprint 1 · coarse-grained</span>
+          <h2 class="title is-3 section-title">Spectral energy: are these models related at all?</h2>
+          <div class="content has-text-justified">
+            <p>
+              A model is a set of weight matrices $\theta = \{\mathbf{W}_c^{(l)}\}$ over layers $l$ and component
+              types $c$:
+            </p>
+            <p>
+              $$c \in \{Q,\, K,\, V,\, O,\, \text{FFN}_\text{UP},\, \text{FFN}_\text{DOWN},\, \text{FFN}_\text{GATE}\}$$
+            </p>
+            <p>
+              Summarize each matrix by its spectral energy, which is cheap because it is just a trace with no SVD required:
+            </p>
+            <p>
+              $$t(\mathbf{W}_c^{(l)}) := \sqrt{\operatorname{tr}\!\big((\mathbf{W}_c^{(l)})^\top \mathbf{W}_c^{(l)}\big)}
+              = \sqrt{\textstyle\sum_{i=1}^{n}\sigma_i^2}$$
+            </p>
+            <p>
+              Stacking that over layers gives a <em>spectral trace fingerprint</em>
+              $\tau_c(\theta) = [\,t(\mathbf{W}_c^{(1)}), \ldots, t(\mathbf{W}_c^{(L)})\,]$, and two models are compared
+              by correlating their curves after resampling to a common depth and z-scoring:
+            </p>
+            <p>
+              $$S(\theta_a, \theta_b) = \mathbb{E}_c\big[\operatorname{Corr}(\tilde{\tau}_c(\theta_a),\,
+              \tilde{\tau}_c(\theta_b))\big]$$
+            </p>
+            <p>
+              Normalizing away depth and magnitude is exactly what lets a 3B model be compared against a 14B one. On
+              the hardest coarse-grained task, telling independent-origin from same-series pairs, Trace reaches
+              <strong>AUC 0.850</strong>, against 0.655 for PDF and 0.256 for AWM, the last of which is worse than
+              chance.
+            </p>
+          </div>
+
+          <div class="figure-pair">
+            <div class="figure is-bordered">
+              <img src="./static/images/fig6_roc.png"
+                alt="ROC curves: Trace AUC 0.850, PDF AUC 0.655, AWM AUC 0.256.">
+              <p class="figure-caption">ROC for independent-origin vs. same-series.</p>
+            </div>
+            <div class="figure is-bordered">
+              <img src="./static/images/fig7_trace_pdf.png"
+                alt="Scatter of model pairs by PDF score and Trace score, showing clean separation along the Trace axis.">
+              <p class="figure-caption">Each point is a model pair. PDF (x) overlaps. Trace (y) separates by a
+                consistent margin.</p>
+            </div>
+          </div>
+
+          <div class="finding">
+            <span class="finding-label">Finding 1. Global structure and hierarchy</span>
+            Spectral trace fingerprints capture global structure in weight space, enabling reliable coarse-grained
+            separation and a clear hierarchical ordering of model lineage.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== Fingerprint 2 ===================== -->
+  <section class="section is-light-bg" id="subspace">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
+          <span class="subtitle-kicker">Fingerprint 2 · fine-grained</span>
+          <h2 class="title is-3 section-title">Subspace alignment: how far has the variant moved?</h2>
+          <div class="content has-text-justified">
+            <p>
+              Spectral energy saturates in the shared-base regime, where a base model and its instruct variant have
+              essentially identical spectra. But identical magnitude does not mean identical <em>direction</em>.
+            </p>
+          </div>
+
+          <div class="figure-pair is-trio">
+            <div class="figure is-bordered">
+              <img src="./static/images/fig8a_spectral.png" alt="Singular value spectra of Qwen2.5-7B and its Instruct variant, nearly overlapping.">
+              <p class="figure-caption"><strong>(a)</strong> Spectra nearly overlap.</p>
+            </div>
+            <div class="figure is-bordered">
+              <img src="./static/images/fig8b_blockwise.png" alt="Block-wise correlations between top-k singular vectors, showing off-diagonal spread.">
+              <p class="figure-caption"><strong>(b)</strong> Yet subspaces spread off-diagonal.</p>
+            </div>
+            <div class="figure is-bordered">
+              <img src="./static/images/fig8c_angles.png" alt="Principal angles increasing with component index.">
+              <p class="figure-caption"><strong>(c)</strong> Principal angles grow in the tail.</p>
+            </div>
+          </div>
+
+          <div class="content has-text-justified">
+            <p>
+              So take the top-$k$ left singular vectors of each matrix and form the cross-subspace matrix
+            </p>
+            <p>
+              $$\mathbf{C}_c^{(l)} = \big(\mathbf{U}_{c,k}^{(l)}(\theta_a)\big)^{\!\top}
+              \mathbf{U}_{c,k}^{(l)}(\theta_b)$$
+            </p>
+            <p>
+              whose singular values are cosines of the principal angles. The signal lives in the
+              <strong>worst-aligned</strong> directions, so we average the $J$ smallest:
+            </p>
+            <p>
+              $$S_c^{(l)}(\theta_a, \theta_b) = \frac{1}{J}\sum_{i \in \mathcal{I}_c^{(l)}}
+              \sigma_i\big(\mathbf{C}_c^{(l)}\big) \in [0, 1]$$
+            </p>
+            <p>
+              with $J = 3$. Per component we then average the three least-aligned layers, and average across
+              components. Where the baselines report a flat wall of 0.997–1.000, this spreads the same pairs across
+              nearly the whole unit interval:
+            </p>
+          </div>
+
+          <div class="table-wrap">
+            <table class="result-table">
+              <thead>
+                <tr>
+                  <th>Shared-base model pair</th>
+                  <th>AWM</th>
+                  <th>HuReF</th>
+                  <th>PDF</th>
+                  <th>Trace</th>
+                  <th class="ours-col">Ours</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Qwen2.5-7B vs Qwen2.5-7B-Instruct</td>
+                  <td class="saturated">0.999</td><td class="saturated">0.999</td>
+                  <td class="saturated">1.000</td><td class="saturated">0.998</td>
+                  <td class="ours ours-col">0.823<span class="spread-bar"><span style="width:82.3%"></span></span></td>
+                </tr>
+                <tr>
+                  <td>Qwen2.5-14B vs Qwen2.5-14B-Instruct</td>
+                  <td class="saturated">0.999</td><td class="saturated">1.000</td>
+                  <td class="saturated">1.000</td><td class="saturated">0.998</td>
+                  <td class="ours ours-col">0.632<span class="spread-bar"><span style="width:63.2%"></span></span></td>
+                </tr>
+                <tr>
+                  <td>Qwen3-4B vs Qwen3-4B-Instruct</td>
+                  <td class="saturated">0.998</td><td class="saturated">0.999</td>
+                  <td class="saturated">0.999</td><td class="saturated">0.998</td>
+                  <td class="ours ours-col">0.208<span class="spread-bar"><span style="width:20.8%"></span></span></td>
+                </tr>
+                <tr>
+                  <td>Qwen3-4B vs Qwen3-4B-Thinking</td>
+                  <td class="saturated">0.998</td><td class="saturated">0.999</td>
+                  <td class="saturated">0.999</td><td class="saturated">0.999</td>
+                  <td class="ours ours-col">0.184<span class="spread-bar"><span style="width:18.4%"></span></span></td>
+                </tr>
+                <tr>
+                  <td>Llama-3.1-8B vs Llama-3.1-8B-Instruct</td>
+                  <td class="saturated">0.998</td><td class="saturated">0.997</td>
+                  <td class="saturated">0.999</td><td class="saturated">0.997</td>
+                  <td class="ours ours-col">0.814<span class="spread-bar"><span style="width:81.4%"></span></span></td>
+                </tr>
+                <tr class="group-sep">
+                  <td>Llama-3.1-8B vs Alpaca-SFT (10%)</td>
+                  <td class="saturated">0.999</td><td class="saturated">0.998</td>
+                  <td class="saturated">1.000</td><td class="saturated">1.000</td>
+                  <td class="ours ours-col">0.976<span class="spread-bar"><span style="width:97.6%"></span></span></td>
+                </tr>
+                <tr>
+                  <td>Llama-3.1-8B vs Alpaca-SFT (25%)</td>
+                  <td class="saturated">0.999</td><td class="saturated">0.999</td>
+                  <td class="saturated">0.999</td><td class="saturated">0.998</td>
+                  <td class="ours ours-col">0.935<span class="spread-bar"><span style="width:93.5%"></span></span></td>
+                </tr>
+                <tr>
+                  <td>Llama-3.1-8B vs Alpaca-SFT (50%)</td>
+                  <td class="saturated">1.000</td><td class="saturated">1.000</td>
+                  <td class="saturated">1.000</td><td class="saturated">0.998</td>
+                  <td class="ours ours-col">0.903<span class="spread-bar"><span style="width:90.3%"></span></span></td>
+                </tr>
+                <tr>
+                  <td>Llama-3.1-8B vs Alpaca-SFT (100%)</td>
+                  <td class="saturated">1.000</td><td class="saturated">1.000</td>
+                  <td class="saturated">1.000</td><td class="saturated">0.998</td>
+                  <td class="ours ours-col">0.889<span class="spread-bar"><span style="width:88.9%"></span></span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="table-note">
+            Upper block: official post-training variants, trained on large and diverse data, which move furthest.
+            Lower block: controlled Alpaca SFT at increasing data proportions. Alignment decreases monotonically
+            from 0.976 to 0.889 as the fine-tuning set grows from 10% to 100%.
+          </p>
+
+          <div class="finding">
+            <span class="finding-label">Finding 2. Sensitivity to data scale</span>
+            Subspace alignment stays sensitive to post-training data scale, capturing fine-grained subspace deviations
+            and enabling discrimination among shared-base models that differ in fine-tuning data quantity and
+            diversity.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== Algorithm signatures ===================== -->
+  <section class="section" id="algorithms">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
+          <span class="subtitle-kicker">Fine-grained · algorithms</span>
+          <h2 class="title is-3 section-title">Post-training algorithms leave distinct component signatures</h2>
+          <div class="content has-text-justified">
+            <p>
+              Starting from Qwen2.5-Math-7B, we apply DPO, PPO and RAFT under the Online-DPO-R1 framework, with the same
+              initialization, the same data and aligned optimization, and read the per-component alignment.
+            </p>
+          </div>
+
+          <div class="figure is-bordered">
+            <img src="./static/images/fig9_components.png"
+              alt="Per-component subspace alignment for DPO, PPO and RAFT relative to Qwen2.5-Math-7B.">
+            <p class="figure-caption">
+              Per-component subspace alignment against the base model. $K$ and $V$ stay pinned near 1.0, so those
+              subspaces are largely preserved. $Q$ varies most across methods: PPO drops it sharply while DPO barely
+              moves it. RAFT instead concentrates its perturbation in the FFN components.
+            </p>
+          </div>
+
+          <div class="finding">
+            <span class="finding-label">Finding 3. Algorithm-specific subspace sensitivity</span>
+            Post-training can induce algorithm-dependent directional deviations, as measured by subspace alignment,
+            revealing distinct geometric signatures in different model components.
+          </div>
+
+          <div class="content has-text-justified">
+            <p>
+              The signal also survives transformation. Across quantization, unstructured magnitude pruning, model
+              merging and data distillation, Trace preserves the coarse-grained shared-base lineage signal while
+              subspace alignment tracks transformation severity and component-specific directional change.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== Try it ===================== -->
+  <section class="section is-light-bg" id="code">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
+          <span class="subtitle-kicker">Code</span>
+          <h2 class="title is-3 section-title">Compare two models in one command</h2>
+          <div class="content has-text-justified">
+            <p>
+              Scoring is numpy only. Only fingerprint extraction needs torch, and it is cached per model so every pair
+              that mentions it is cheap. One GPU handles models up to ~14B.
+            </p>
+          </div>
+
+          <pre class="code-block"><code>pip install -r requirements.txt
+
+python -m llm_biometrics compare \
+    --model-a Qwen/Qwen2.5-7B \
+    --model-b Qwen/Qwen2.5-7B-Instruct \
+    --method both --components all</code></pre>
+
+          <pre class="code-block"><code>Trace  (Sec. 4, Eq. 5): spectral energy across layers
+    OVERALL    +0.9980   very high: shared base or near identical weights
+
+Subspace  (Sec. 5, Eq. 8): k=512, J=3, bottom 3 layers
+    OVERALL    0.8234   well aligned: shared base with moderate post-training</code></pre>
+
+          <div class="content has-text-justified">
+            <p>
+              Trace says <em>these share a base</em>. Subspace says <em>how far the instruct variant rotated away from
+              it</em>, the number no prior white-box method resolves. The Appendix B model zoo ships as pair lists in
+              <code>configs/pairs/</code>, with one script per scenario covering all 110+ pairs.
+            </p>
+          </div>
+
+          <div class="has-text-centered" style="margin-top: 1.6rem;">
+            <a href="https://github.com/OPTML-Group/LLM-Biometrics" class="external-link button is-normal is-rounded">
+              <span class="icon"><i class="fab fa-github"></i></span>
+              <span>OPTML-Group/LLM-Biometrics</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BibTeX ===================== -->
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title is-3 section-title">BibTeX</h2>
+      <pre><code>@inproceedings{chen2026who,
+  title={Who Built This Model? Tracing LLM Lineage via Spectral Fingerprints in Weight Space},
+  author={Chen, Yiwei and Shang, Bingqi and Liu, Sijia},
+  booktitle={Conference on Language Modeling (COLM)},
+  year={2026}
+}</code></pre>
+    </div>
+  </section>
+
+  <!-- ===================== Footer ===================== -->
+  <footer class="footer">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-four-fifths has-text-centered">
+          <p style="margin-bottom: 0.8rem;">
+            <a href="../">&larr; Yiwei Chen's homepage</a>
+            &nbsp;·&nbsp;
+            <a href="https://github.com/OPTML-Group/LLM-Biometrics">Code</a>
+            &nbsp;·&nbsp;
+            <a href="https://www.optml-group.com/">OPTML Group</a>
+          </p>
+          <p class="is-size-7">
+            This website is licensed under a
+            <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons
+              Attribution-ShareAlike 4.0 International License</a>. Page design adapted from the
+            <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a> project page.
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  </div><!-- /.page-body -->
+
+  <script>
+    // Published per-pair scores (Appendix B / K). Inlined so the lookup also
+    // works when the page is opened straight from disk, where fetch() is blocked.
+    window.LLM_BIOMETRICS_PAIRS = [
+      {"a":"DeepSeek-LLM-7B","b":"LLaMA-3.1-8B","regime":"independent-origin","awm":0.0084,"huref":-0.0269,"pdf":0.8899,"trace":0.249,"subspace":null},
+      {"a":"DeepSeek-LLM-7B","b":"Mistral-7B-v0.3","regime":"independent-origin","awm":0.0054,"huref":0.081,"pdf":0.9276,"trace":0.1696,"subspace":null},
+      {"a":"Falcon-7B","b":"DeepSeek-LLM-7B","regime":"independent-origin","awm":0.0011,"huref":0.0004,"pdf":0.54,"trace":0.3018,"subspace":null},
+      {"a":"Falcon-7B","b":"LLaMA-2-7B","regime":"independent-origin","awm":0.0005,"huref":-0.0097,"pdf":0.5393,"trace":0.3396,"subspace":null},
+      {"a":"Falcon-7B","b":"Qwen2.5-7B","regime":"independent-origin","awm":0.0008,"huref":-0.0108,"pdf":0.6956,"trace":0.2753,"subspace":null},
+      {"a":"Gemma-7B","b":"DeepSeek-LLM-7B","regime":"independent-origin","awm":0.0025,"huref":-0.0321,"pdf":0.5369,"trace":0.1337,"subspace":null},
+      {"a":"Gemma-7B","b":"Falcon-7B","regime":"independent-origin","awm":0.001,"huref":0.0034,"pdf":0.7746,"trace":0.1472,"subspace":null},
+      {"a":"Gemma-7B","b":"Yi-6B","regime":"independent-origin","awm":0.0031,"huref":0.0872,"pdf":0.5348,"trace":0.1951,"subspace":null},
+      {"a":"LLaMA-2-7B","b":"DeepSeek-LLM-7B","regime":"independent-origin","awm":0.0083,"huref":0.3846,"pdf":0.9562,"trace":0.3595,"subspace":null},
+      {"a":"LLaMA-2-7B","b":"Gemma-7B","regime":"independent-origin","awm":0.0024,"huref":-0.0977,"pdf":0.6029,"trace":0.2507,"subspace":null},
+      {"a":"LLaMA-2-7B","b":"Mistral-7B-v0.3","regime":"independent-origin","awm":0.0067,"huref":0.0277,"pdf":0.8594,"trace":0.2568,"subspace":null},
+      {"a":"LLaMA-3.1-8B","b":"Falcon-7B","regime":"independent-origin","awm":0.0003,"huref":0.0047,"pdf":0.6745,"trace":0.4542,"subspace":null},
+      {"a":"LLaMA-3.1-8B","b":"Gemma-7B","regime":"independent-origin","awm":0.0027,"huref":0.0358,"pdf":0.5225,"trace":0.2977,"subspace":null},
+      {"a":"LLaMA-3.1-8B","b":"Mistral-7B-v0.3","regime":"independent-origin","awm":0.0056,"huref":-0.0186,"pdf":0.9516,"trace":0.6222,"subspace":null},
+      {"a":"LLaMA-3.1-8B","b":"Yi-6B","regime":"independent-origin","awm":0.0046,"huref":0.0178,"pdf":0.8523,"trace":0.508,"subspace":null},
+      {"a":"Mistral-7B-v0.3","b":"Falcon-7B","regime":"independent-origin","awm":0.0004,"huref":-0.0026,"pdf":0.6139,"trace":0.303,"subspace":null},
+      {"a":"Mistral-7B-v0.3","b":"Gemma-7B","regime":"independent-origin","awm":0.0026,"huref":-0.0286,"pdf":0.4819,"trace":0.2507,"subspace":null},
+      {"a":"Mistral-7B-v0.3","b":"Yi-6B","regime":"independent-origin","awm":0.0059,"huref":-0.0348,"pdf":0.8896,"trace":0.3506,"subspace":null},
+      {"a":"Qwen2.5-7B","b":"DeepSeek-LLM-7B","regime":"independent-origin","awm":0.0027,"huref":0.0818,"pdf":0.8301,"trace":0.2419,"subspace":null},
+      {"a":"Qwen2.5-7B","b":"Gemma-7B","regime":"independent-origin","awm":0.0019,"huref":-0.0244,"pdf":0.4919,"trace":0.0321,"subspace":null},
+      {"a":"Qwen2.5-7B","b":"LLaMA-2-7B","regime":"independent-origin","awm":0.0023,"huref":-0.066,"pdf":0.7453,"trace":0.3082,"subspace":null},
+      {"a":"Qwen2.5-7B","b":"LLaMA-3.1-8B","regime":"independent-origin","awm":0.0028,"huref":0.0092,"pdf":0.9159,"trace":0.3522,"subspace":null},
+      {"a":"Qwen2.5-7B","b":"Mistral-7B-v0.3","regime":"independent-origin","awm":0.0019,"huref":0.0282,"pdf":0.9313,"trace":0.2261,"subspace":null},
+      {"a":"Yi-6B","b":"DeepSeek-LLM-7B","regime":"independent-origin","awm":0.005,"huref":-0.0136,"pdf":0.9328,"trace":0.4036,"subspace":null},
+      {"a":"Yi-6B","b":"Falcon-7B","regime":"independent-origin","awm":0.0004,"huref":0.0034,"pdf":0.5698,"trace":0.4126,"subspace":null},
+      {"a":"Yi-6B","b":"LLaMA-2-7B","regime":"independent-origin","awm":0.0067,"huref":0.0663,"pdf":0.8903,"trace":0.3648,"subspace":null},
+      {"a":"Yi-6B","b":"Qwen2.5-7B","regime":"independent-origin","awm":0.002,"huref":-0.0474,"pdf":0.8381,"trace":0.5845,"subspace":null},
+      {"a":"Qwen2.5-14B","b":"Qwen3-14B","regime":"cross-series","awm":null,"huref":null,"pdf":null,"trace":0.588,"subspace":null},
+      {"a":"Qwen2.5-14B","b":"Qwen3-8B","regime":"cross-series","awm":null,"huref":null,"pdf":null,"trace":0.576,"subspace":null},
+      {"a":"Qwen2.5-7B","b":"Qwen3-14B","regime":"cross-series","awm":null,"huref":null,"pdf":null,"trace":0.31,"subspace":null},
+      {"a":"Qwen2.5-7B","b":"Qwen3-8B","regime":"cross-series","awm":null,"huref":null,"pdf":null,"trace":0.441,"subspace":null},
+      {"a":"Falcon-7B","b":"Falcon-11B","regime":"same-series","awm":0.0007,"huref":null,"pdf":0.6654,"trace":0.5368,"subspace":null},
+      {"a":"Gemma-2B","b":"Gemma-7B","regime":"same-series","awm":0.0021,"huref":null,"pdf":0.5662,"trace":0.6169,"subspace":null},
+      {"a":"LLaMA-2-7B","b":"LLaMA-2-13B","regime":"same-series","awm":0.0118,"huref":null,"pdf":0.984,"trace":0.4512,"subspace":null},
+      {"a":"Mistral-7B-v0.3","b":"Mixtral-8x7B","regime":"same-series","awm":0.6665,"huref":null,"pdf":0.9856,"trace":0.8679,"subspace":null},
+      {"a":"Pythia-1.4B","b":"Pythia-2.8B","regime":"same-series","awm":0.0045,"huref":null,"pdf":0.9136,"trace":0.9298,"subspace":null},
+      {"a":"Pythia-1B","b":"Pythia-1.4B","regime":"same-series","awm":0.0202,"huref":null,"pdf":0.583,"trace":0.6979,"subspace":null},
+      {"a":"Qwen2.5-3B","b":"Qwen2.5-7B","regime":"same-series","awm":0.002,"huref":null,"pdf":0.944,"trace":0.5738,"subspace":null},
+      {"a":"Qwen2.5-7B","b":"Qwen2.5-14B","regime":"same-series","awm":0.0034,"huref":null,"pdf":0.8133,"trace":0.522,"subspace":null},
+      {"a":"Qwen3-4B","b":"Qwen3-8B","regime":"same-series","awm":0.0842,"huref":null,"pdf":0.9567,"trace":0.6904,"subspace":null},
+      {"a":"Qwen3-8B","b":"Qwen3-14B","regime":"same-series","awm":0.0134,"huref":null,"pdf":0.8502,"trace":0.6109,"subspace":null},
+      {"a":"LLaMA-3.1-8B","b":"Alpaca-10%","regime":"shared-base","awm":0.999,"huref":0.998,"pdf":1.0,"trace":1.0,"subspace":0.976},
+      {"a":"LLaMA-3.1-8B","b":"Alpaca-100%","regime":"shared-base","awm":1.0,"huref":1.0,"pdf":1.0,"trace":0.998,"subspace":0.889},
+      {"a":"LLaMA-3.1-8B","b":"Alpaca-25%","regime":"shared-base","awm":0.999,"huref":0.999,"pdf":0.999,"trace":0.998,"subspace":0.935},
+      {"a":"LLaMA-3.1-8B","b":"Alpaca-50%","regime":"shared-base","awm":1.0,"huref":1.0,"pdf":1.0,"trace":0.998,"subspace":0.903},
+      {"a":"LLaMA-3.1-8B","b":"LLaMA-3.1-8B-Instruct","regime":"shared-base","awm":0.998,"huref":0.997,"pdf":0.999,"trace":0.997,"subspace":0.814},
+      {"a":"LLaMA-3.1-8B","b":"Tulu-3-8B","regime":"shared-base","awm":1.0,"huref":1.0,"pdf":1.0,"trace":0.999,"subspace":0.787},
+      {"a":"LLaMA-3.1-8B","b":"Tulu-3-8B-DPO","regime":"shared-base","awm":0.998,"huref":0.999,"pdf":0.999,"trace":0.999,"subspace":0.783},
+      {"a":"LLaMA-3.1-8B","b":"Tulu-3-8B-SFT","regime":"shared-base","awm":0.999,"huref":0.999,"pdf":1.0,"trace":0.998,"subspace":0.783},
+      {"a":"Qwen2.5-14B","b":"Qwen2.5-14B-Instruct","regime":"shared-base","awm":0.999,"huref":1.0,"pdf":1.0,"trace":0.998,"subspace":0.632},
+      {"a":"Qwen2.5-7B","b":"Qwen2.5-7B-Instruct","regime":"shared-base","awm":0.999,"huref":0.999,"pdf":1.0,"trace":0.998,"subspace":0.823},
+      {"a":"Qwen2.5-Math-7B","b":"Qwen2.5-7B-DPO","regime":"shared-base","awm":0.998,"huref":0.996,"pdf":0.998,"trace":0.998,"subspace":0.957},
+      {"a":"Qwen2.5-Math-7B","b":"Qwen2.5-7B-DPO-Zero","regime":"shared-base","awm":1.0,"huref":1.0,"pdf":0.999,"trace":0.999,"subspace":0.992},
+      {"a":"Qwen2.5-Math-7B","b":"Qwen2.5-7B-PPO-Zero","regime":"shared-base","awm":0.997,"huref":0.998,"pdf":0.997,"trace":0.999,"subspace":0.975},
+      {"a":"Qwen2.5-Math-7B","b":"Qwen2.5-7B-RAFT-Zero","regime":"shared-base","awm":1.0,"huref":1.0,"pdf":0.999,"trace":0.999,"subspace":0.961},
+      {"a":"Qwen2.5-Math-7B","b":"Qwen2.5-7B-SFT","regime":"shared-base","awm":1.0,"huref":1.0,"pdf":0.999,"trace":0.999,"subspace":0.934},
+      {"a":"Qwen3-14B","b":"UniReason-RL","regime":"shared-base","awm":0.998,"huref":0.999,"pdf":0.999,"trace":0.997,"subspace":0.356},
+      {"a":"Qwen3-14B","b":"UniReason-no-think","regime":"shared-base","awm":0.998,"huref":0.999,"pdf":0.998,"trace":0.999,"subspace":0.36},
+      {"a":"Qwen3-14B","b":"UniReason-think","regime":"shared-base","awm":1.0,"huref":0.999,"pdf":1.0,"trace":0.999,"subspace":0.358},
+      {"a":"Qwen3-4B","b":"Qwen3-4B-Instruct","regime":"shared-base","awm":0.998,"huref":0.999,"pdf":0.999,"trace":0.999,"subspace":0.208},
+      {"a":"Qwen3-4B","b":"Qwen3-4B-Thinking","regime":"shared-base","awm":1.0,"huref":0.999,"pdf":0.998,"trace":0.999,"subspace":0.184}
+    ];
+  </script>
+
+  <script>
+    // ===== Pair lookup =====
+    // Reads the published per-pair scores; nothing is computed in the browser.
+    (function () {
+      var selA = document.getElementById('model-a');
+      var selB = document.getElementById('model-b');
+      var result = document.getElementById('lookup-result');
+      var note = document.getElementById('lookup-note');
+      if (!selA || !selB) return;
+
+      var REGIMES = {
+        'independent-origin': { label: 'Independent origin', cls: 'is-s1' },
+        'cross-series': { label: 'Cross-series', cls: 'is-xs' },
+        'same-series': { label: 'Same series', cls: 'is-s2' },
+        'shared-base': { label: 'Shared base', cls: 'is-s3' }
+      };
+      var pairs = [];
+
+      function partners(model) {
+        var out = [];
+        pairs.forEach(function (p) {
+          if (p.a === model) out.push(p.b);
+          else if (p.b === model) out.push(p.a);
+        });
+        return out.sort();
+      }
+
+      function find(a, b) {
+        for (var i = 0; i < pairs.length; i++) {
+          var p = pairs[i];
+          if ((p.a === a && p.b === b) || (p.a === b && p.b === a)) return p;
+        }
+        return null;
+      }
+
+      function fill(sel, options, keep) {
+        sel.innerHTML = '';
+        options.forEach(function (o) {
+          var opt = document.createElement('option');
+          opt.value = o;
+          opt.textContent = o;
+          sel.appendChild(opt);
+        });
+        if (keep && options.indexOf(keep) !== -1) sel.value = keep;
+      }
+
+      function bar(v) {
+        if (v === null || v === undefined) return '';
+        var pct = Math.max(0, Math.min(1, v)) * 100;
+        return '<span class="score-bar"><span style="width:' + pct.toFixed(1) + '%"></span></span>';
+      }
+
+      function fmt(v) {
+        return (v === null || v === undefined) ? '&mdash;' : v.toFixed(3);
+      }
+
+      function render() {
+        var p = find(selA.value, selB.value);
+        if (!p) { result.innerHTML = ''; return; }
+        var r = REGIMES[p.regime] || { label: p.regime, cls: '' };
+
+        var sub = p.subspace === null || p.subspace === undefined
+          ? '<div class="score-row is-muted"><span class="score-name">Subspace alignment</span>' +
+            '<span class="score-na">not applicable, architecture or depth differs</span></div>'
+          : '<div class="score-row"><span class="score-name">Subspace alignment</span>' +
+            '<span class="score-val">' + fmt(p.subspace) + '</span>' + bar(p.subspace) + '</div>';
+
+        result.innerHTML =
+          '<div class="lookup-head">' +
+            '<span class="regime-badge ' + r.cls + '">' + r.label + '</span>' +
+          '</div>' +
+          '<div class="score-row is-primary"><span class="score-name">Trace</span>' +
+            '<span class="score-val">' + fmt(p.trace) + '</span>' + bar(p.trace) + '</div>' +
+          sub +
+          '<div class="baseline-row">' +
+            '<span>Baselines</span>' +
+            '<span>AWM ' + fmt(p.awm) + '</span>' +
+            '<span>HuReF ' + fmt(p.huref) + '</span>' +
+            '<span>PDF ' + fmt(p.pdf) + '</span>' +
+          '</div>';
+      }
+
+      selA.addEventListener('change', function () {
+        fill(selB, partners(selA.value), selB.value);
+        render();
+      });
+      selB.addEventListener('change', render);
+
+      (function () {
+        pairs = window.LLM_BIOMETRICS_PAIRS || [];
+        if (!pairs.length) { note.textContent = 'Pair table unavailable.'; return; }
+        var models = {};
+        pairs.forEach(function (p) { models[p.a] = 1; models[p.b] = 1; });
+        var all = Object.keys(models).sort();
+        fill(selA, all);
+        selA.value = 'Qwen2.5-7B';
+        fill(selB, partners(selA.value));
+        if (partners(selA.value).indexOf('Qwen2.5-7B-Instruct') !== -1) {
+          selB.value = 'Qwen2.5-7B-Instruct';
+        }
+        note.innerHTML = 'All ' + pairs.length + ' pairs of the Appendix B model zoo (' + all.length +
+          ' models), reproducing the numbers reported in the paper. This page looks the scores up. ' +
+          'It does not download weights or run the metrics, so use the ' +
+          '<a href="https://github.com/OPTML-Group/LLM-Biometrics">code</a> for pairs of your own.';
+        render();
+      })();
+    })();
+
+    // Highlight the index entry for whichever section is currently in view.
+    (function () {
+      var links = Array.prototype.slice.call(document.querySelectorAll('.side-toc a[href^="#"]'));
+      var byId = {};
+      var targets = [];
+      links.forEach(function (a) {
+        var el = document.getElementById(a.getAttribute('href').slice(1));
+        if (el) { byId[el.id] = a; targets.push(el); }
+      });
+      if (!targets.length || !('IntersectionObserver' in window)) return;
+
+      var visible = {};
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) { visible[e.target.id] = e.isIntersecting; });
+        var current = null;
+        for (var i = 0; i < targets.length; i++) {
+          if (visible[targets[i].id]) { current = targets[i].id; break; }
+        }
+        links.forEach(function (a) { a.classList.remove('is-active'); });
+        if (current && byId[current]) byId[current].classList.add('is-active');
+      }, { rootMargin: '-15% 0px -70% 0px', threshold: 0 });
+
+      targets.forEach(function (t) { observer.observe(t); });
+    })();
+  </script>
+
+</body>
+
+</html>
