@@ -579,11 +579,9 @@ heading {
   line-height: 1.5;
   margin: 10px 0 0 0;
 }
-.pub-info a[href*="arxiv"],
-.pub-info a[href*="github"],
-.pub-info a[href*="Code"] {
-  font-size: 15px;
-}
+/* Pill buttons are sized by what they are, not by what they link to. Matching
+   on the URL made a Drive link or a relative project path render smaller than
+   an arXiv or GitHub one in the same row. */
 
 /* ===== Venue badges ===== */
 em.accepted {
@@ -632,7 +630,7 @@ em.review {
   padding: 2px 11px;
   border: 1.5px solid #1772d0;
   border-radius: 20px;
-  font-size: 13px;
+  font-size: 15px;
   color: #1772d0;
   font-weight: 500;
   transition: background 0.15s ease, color 0.15s ease;
