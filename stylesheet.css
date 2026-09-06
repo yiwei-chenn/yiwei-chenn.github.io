@@ -166,19 +166,21 @@ name {
 .pub-info {
   flex: 1 1 0;
   min-width: 0;
-  margin-top: -15px;
+  margin-top: 0;
 }
 .pub-img {
-  flex: 0 0 35%;
-  max-width: 260px;
-  margin-right: 20px;
+  flex: 0 0 292px;
+  max-width: 292px;
+  margin-right: 24px;
   min-width: 120px;
 }
 .pub-img img {
   width: 100%;
   height: auto;
   display: block;
-  border-radius: 6px;
+  border-radius: 8px;
+  border: 1px solid #e6e6e6;
+  background: #fff;
 }
 .pub-info {
   flex: 1 1 0;
@@ -186,9 +188,9 @@ name {
 }
 @media (max-width: 900px) {
   .pub-img {
-    flex: 0 0 140px;
-    max-width: 180px;
-    margin-right: 16px;
+    flex: 0 0 240px;
+    max-width: 240px;
+    margin-right: 18px;
   }
 }
 @media (max-width: 600px) {
@@ -429,7 +431,7 @@ td.main-td {
 .about-grid {
   display: flex;
   align-items: flex-start;
-  gap: 40px;
+  gap: 32px;
 }
 .about-text {
   flex: 1;
@@ -443,10 +445,26 @@ td.main-td {
   line-height: 1.25;
   color: #1a1a1a;
 }
+/* Self-hosted subset of LXGW WenKai TC (霞鹜文楷, SIL OFL 1.1) — only the glyphs
+   in 陳一葦 (1.3 KB). Guarantees the Chinese name renders identically everywhere,
+   including on machines with no CJK font installed.
+   Source: https://github.com/lxgw/LxgwWenkaiTC */
+@font-face {
+  font-family: 'Name TC';
+  src: url('fonts/name-tc.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+4E00, U+8466, U+9673;
+}
 .about-name-cn {
   font-weight: 400;
   color: #555;
   margin-left: 0.5em;
+  /* Latin stack has no CJK glyphs — 'Name TC' above supplies them, with local
+     kai/serif CJK fonts as the fallback if the webfont fails to load. */
+  font-family: 'Name TC', 'LXGW WenKai TC', 'Kaiti TC', BiauKai, 'DFKai-SB', KaiTi,
+    STKaiti, 'Songti TC', 'Noto Serif TC', 'PingFang TC', serif;
 }
 .about-text p {
   margin: 0 0 14px 0;
@@ -457,8 +475,8 @@ td.main-td {
   padding-top: 4px;
 }
 .hoverZoomLink {
-  width: 180px;
-  height: 180px;
+  width: 215px;
+  height: 215px;
   border-radius: 50%;
   object-fit: cover;
   display: block;
@@ -571,7 +589,7 @@ heading {
   background: #f9f9f9;
 }
 .pub-img img {
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  box-shadow: none;
 }
 .pub-info p {
   font-size: 15px;
@@ -689,7 +707,9 @@ em.review {
   box-shadow: 0 2px 14px rgba(96,165,250,0.08);
 }
 [data-theme="dark"] .pub-img img {
-  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  box-shadow: none;
+  border-color: #2f2f36;
+  background: #17171b;
 }
 [data-theme="dark"] em.accepted {
   background: rgba(37,99,235,0.25);
@@ -945,4 +965,16 @@ em.review {
     padding: 0 10px;
     font-size: 13.5px;
   }
+}
+
+/* Email button — copied state */
+.social-btn.copied {
+  border-color: #1772d0;
+  color: #1772d0;
+  background: rgba(23, 114, 208, 0.05);
+}
+[data-theme="dark"] .social-btn.copied {
+  border-color: #60a5fa;
+  color: #60a5fa;
+  background: rgba(96, 165, 250, 0.06);
 }
