@@ -47,7 +47,7 @@
           <div class="intro-section">
             <div class="about-grid">
               <div class="about-text">
-                <h1 class="about-name">Yiwei Chen<span class="about-name-cn">陳一葦</span></h1>
+                <h1 class="about-name">Yiwei Chen<span class="about-name-cn">陈一苇</span></h1>
                 <p>I am a CS Ph.D. student focusing on Trustworthy ML and Scalable AI at <a
                     href="https://engineering.msu.edu/about/departments/cse">Michigan State University</a> (MSU),
                     where my advisor is Prof. <a href="https://lsjxjtu.github.io/">Sijia Liu</a>.
@@ -72,7 +72,7 @@
           </div>
 
           <table id="research"
-            style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;margin-top:24px;">
+            style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;margin-top:34px;">
             <tbody>
               <tr>
                 <td class="section-cell" style="width:100%">
@@ -95,7 +95,7 @@
           </table>
 
           <table id="news"
-          style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;margin-top:24px;">
+          style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;margin-top:34px;">
           <tbody>
             <tr>
               <td class="section-cell news-section-cell" style="width:100%">
@@ -113,7 +113,7 @@
                   <li> <strong>2026-01</strong>  Two first-author papers accepted at ICLR'26! </li>
                   <li> <strong>2025-05</strong>  Joined Cisco as a PhD Intern! </li>
                   <li> <strong>2025-05</strong>  <a href="https://arxiv.org/abs/2506.14003">Unlearning Isn't Invisible</a> on detecting unlearning traces in LLMs from model outputs! </li>
-                  <li> <strong>2025-03</strong>  <a href="https://arxiv.org/abs/2503.11832">Safety Mirage</a> on the application of machine unlearning to VLM safety alignment — the first project of my PhD journey! </li>
+                  <li> <strong>2025-03</strong>  <a href="https://arxiv.org/abs/2503.11832">Safety Mirage</a> on the application of machine unlearning to VLM safety alignment, my first project as a PhD student! </li>
                   <li> <strong>2024-08</strong>  Started PhD journey at Michigan State University! </li>
                   <li> <strong>2024-06</strong>  Graduated from Xi'an Jiaotong University!</li>
                 </ul>
@@ -127,7 +127,7 @@
 
           <!-- Internships Section -->
           <table id="internships"
-            style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;margin-top:24px;">
+            style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;margin-top:34px;">
             <tbody>
               <tr>
                 <td class="section-cell" style="width:100%">
@@ -137,26 +137,27 @@
                     <table class="internship-table" style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;">
                       <tbody>
                         <tr>
-                          <td class="intern-logo" style="padding:2px 0px 8px 0px;vertical-align:middle;width:64px;">
-                            <img src="icon/amazon.png" alt="Amazon" style="width:76px;height:76px;object-fit:contain;vertical-align:middle;">
+                          <td class="intern-logo">
+                            <img src="icon/amazon.png" alt="Amazon" class="logo-amazon">
                           </td>
-                          <td class="intern-role" style="padding:2px 0px 8px 8px;vertical-align:middle;">
-                            <strong>Amazon</strong> &mdash; Applied Scientist Intern
+                          <td class="intern-org">Amazon</td>
+                          <td class="intern-role">
+                            <em class="intern-title">Applied Scientist Intern</em>
+                            <!-- Second line, same pattern as the Cisco row:
+                            <div class="intern-meta"><strong>Topic:</strong> … &nbsp;|&nbsp; <strong>Mentor:</strong> …</div> -->
                           </td>
-                          <td class="intern-date" style="padding:2px 0px 8px 0px;vertical-align:middle;text-align:right;color:#666;">
-                            May 2026 &ndash; Aug. 2026
-                          </td>
+                          <td class="intern-date">May 2026 &ndash; Aug. 2026</td>
                         </tr>
                         <tr>
-                          <td class="intern-logo" style="padding:8px 0px 8px 0px;vertical-align:middle;width:64px;">
-                            <img src="icon/cisco.png" alt="Cisco" style="width:60px;height:60px;object-fit:contain;display:block;margin:auto;">
+                          <td class="intern-logo">
+                            <img src="icon/cisco.png" alt="Cisco" class="logo-cisco">
                           </td>
-                          <td class="intern-role" style="padding:8px 0px 8px 8px;vertical-align:middle;">
-                            <strong>Cisco</strong> &mdash; PhD Intern
+                          <td class="intern-org">Cisco</td>
+                          <td class="intern-role">
+                            <em class="intern-title">PhD Intern</em>
+                            <!-- <div class="intern-meta"><strong>Topic:</strong> … &nbsp;|&nbsp; <strong>Mentor:</strong> …</div> -->
                           </td>
-                          <td class="intern-date" style="padding:8px 0px 8px 0px;vertical-align:middle;text-align:right;color:#666;">
-                            May 2025 &ndash; Oct. 2025
-                          </td>
+                          <td class="intern-date">May 2025 &ndash; Oct. 2025</td>
                         </tr>
                       </tbody>
                     </table>
@@ -192,14 +193,10 @@
               <em class="accepted">ICLR 2026</em>
               <br>
               <span class="pub-links"><a href="https://github.com/OPTML-Group/VLM-Safety-MU">Code</a><a href="https://arxiv.org/abs/2503.11832">Paper</a></span>
+              <p class="pub-takeaway">Unlearning removes the harm that safety fine-tuning only masks.</p>
               <p>
-                <!-- Conventional supervised safety fine-tuning of VLMs suffers from the “safety mirage”
-                problem due to training data bias, resulting in spurious correlations and over-rejections following one-
-                word attacks. Employing unlearning algorithms on VLMs effectively removes harmful content and
-                addresses these safety issues. -->
-                Conventional safety fine-tuning of MLLMs suffers from a “safety mirage” caused by training bias, 
-                leading to spurious correlations and over-rejections under one-word attacks. 
-                Employing unlearning algorithms effectively removes harmful content and mitigates these issues.
+                Safety fine-tuning of MLLMs inherits the bias of its training data, producing spurious
+                correlations and over-rejections under one-word attacks.
               </p>
               </div>
             </div>
@@ -221,9 +218,10 @@
               <em class="accepted">ICLR 2026</em><em class="oral">Oral @ MUGen ICML'25</em>
               <br>
               <span class="pub-links"><a href="https://github.com/OPTML-Group/Unlearn-Trace">Code</a><a href="https://arxiv.org/abs/2506.14003">Paper</a></span>
+              <p class="pub-takeaway">Forgetting is not invisible: unlearned models still leak that they were unlearned.</p>
               <p>
-                Large language models retain persistent fingerprints in their outputs and hidden activations even after unlearning. 
-                These traces enable detection of whether a model has been “unlearned,” exposing a new vulnerability in reverse-engineering forgotten information.
+                Unlearned LLMs keep persistent fingerprints in their outputs and hidden activations,
+                enough for a classifier to tell that unlearning happened at all.
               </p>
               </div>
             </div>
@@ -242,11 +240,13 @@
               <a href="https://bio.bingqi-shang.com/">Bingqi Shang</a>*,
               <a href="https://lsjxjtu.github.io/">Sijia Liu</a>
               <br>
-              <em class="review">COLM 2026</em>
+              <em class="accepted">COLM 2026</em>
               <br>
               <span class="pub-links"><a href="./llm-biometrics/">Project</a><a href="https://github.com/OPTML-Group/LLM-Biometrics">Code</a><a href="https://arxiv.org/abs/2608.07786">Paper</a></span>
+              <p class="pub-takeaway">Model provenance from weights alone, with no access to training data.</p>
               <p>
-                A geometric fingerprinting framework to trace LLM lineage in weight space, combining spectral energy for coarse-grained discrimination and subspace alignment for fine-grained analysis, enabling data-free model provenance identification.
+                A geometric fingerprint of weight space traces which model a checkpoint descends from,
+                using spectral energy for coarse discrimination and subspace alignment for fine-grained analysis.
               </p>
               </div>
             </div>
@@ -265,11 +265,13 @@
               Vinny Parla,
               Ganesh Sundaram
               <br>
-              <em class="accepted">Manuscript 2026</em>
+              <em class="accepted">Technical Report</em>
               <br>
               <span class="pub-links"><a href="https://arxiv.org/abs/2606.15123">Paper</a></span>
+              <p class="pub-takeaway">With the right fine-tuning data, an 8B model matches frontier LLMs at exploit generation.</p>
               <p>
-                The first data-centric benchmark for CVE-conditioned exploit generation with a 6-level context hierarchy and 8-criterion evaluation framework, benchmarking 17 LLMs. Fine-tuned Qwen3-8B with reasoning-aware fine-tuning achieves a +42.5% improvement, competitive with frontier LLMs.
+                The first data-centric benchmark for CVE-conditioned exploit generation: a 6-level context
+                hierarchy, an 8-criterion evaluation, and 17 LLMs measured against it.
               </p>
               </div>
             </div>
@@ -288,13 +290,13 @@
               Bingquan Shen, 
               <a href="https://lsjxjtu.github.io/">Sijia Liu</a>
               <br>
-              <em class="review">COLM 2026</em>
+              <em class="accepted">COLM 2026</em>
               <br>
               <span class="pub-links"><a href="https://github.com/OPTML-Group/Unlearn-Backdoor">Code</a><a href="https://arxiv.org/abs/2510.17021">Paper</a></span>
+              <p class="pub-takeaway">Attention sinks are a backdoor that quietly restores “forgotten” knowledge.</p>
               <p>
-                Demonstrated that LLM unlearning can be compromised through attention-sink-guided backdoor unlearning, 
-                where triggers placed at attention sinks enable models to recover forgotten knowledge 
-                while maintaining normal behavior without triggers.
+                Triggers planted at attention sinks let an unlearned model recover the forgotten knowledge
+                on cue, while behaving normally whenever the trigger is absent.
               </p>
               </div>
             </div>
@@ -315,9 +317,9 @@
               <em class="accepted">ACM MM 2023</em>
               <br>
               <span class="pub-links"><a href="https://github.com/alanzhangcs/MFTR">Code</a><a href="https://arxiv.org/pdf/2309.14704">Paper</a></span>
+              <p class="pub-takeaway">Framing viewport prediction as tile classification is what buys the robustness.</p>
               <p>
-                We propose a tile-classification-based viewport prediction method with a Multi-modal Fusion Transformer
-                to improve the robustness of viewport prediction.
+                Viewport prediction recast as tile classification, using a multi-modal fusion transformer.
               </p>
               </div>
             </div>
@@ -332,8 +334,12 @@
   <!-- Visitor Map Footer -->
   <div class="footer-wrap">
     <div class="footer-globe-wrap">
-      <!-- ClustrMaps 3D Globe - use https for GitHub Pages -->
-      <script type="text/javascript" id="clstr_globe" src="https://clustrmaps.com/globe.js?d=0UIZjTJsFyruigzp5Z5fBYWTb_ynEnkeL5mAEtOunc0"></script>
+      <!-- Visitor globe. Two things had broken it: ClustrMaps moved to
+           mapmyvisitors.com (clustrmaps.com no longer resolves), and the new
+           globe.js locates its own tag via $("#mmvst_globe") — with the old
+           id="clstr_globe" it returns without drawing anything. Same account
+           token, so the visitor history carries over. -->
+      <script type="text/javascript" id="mmvst_globe" src="https://mapmyvisitors.com/globe.js?d=0UIZjTJsFyruigzp5Z5fBYWTb_ynEnkeL5mAEtOunc0&w=200"></script>
       </div>
   </div>
   <div class="site-footer">&copy; 2026 Yiwei Chen &middot; Last updated Aug 2026</div>
@@ -348,6 +354,14 @@
     }
     _btn.addEventListener('click', () => _applyTheme(_root.getAttribute('data-theme') !== 'dark'));
     if (_root.getAttribute('data-theme') === 'dark') _btn.innerHTML = '<i class="fa-solid fa-sun"></i>';
+
+    const _news = document.querySelector('.news-scroll');
+    function _newsEdge() {
+      const atEnd = _news.scrollTop + _news.clientHeight >= _news.scrollHeight - 2;
+      _news.classList.toggle('at-end', atEnd);
+    }
+    _news.addEventListener('scroll', _newsEdge);
+    _newsEdge();
 
     const _mail = document.getElementById('email-btn');
     const _mailLabel = _mail.querySelector('.email-label');

@@ -217,18 +217,26 @@ name {
 
 /* News section: scrollable, no box wrapper */
 .news-scroll {
-  max-height: 160px;
+  max-height: 186px;
   overflow-y: auto;
   padding: 4px 10px 4px 0;
   margin-top: 2px;
+  /* Fade the cut edge so it reads as "more below" rather than a broken render.
+     JS drops the mask once the list is scrolled to the end. */
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 30px), transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 30px), transparent 100%);
+}
+.news-scroll.at-end {
+  -webkit-mask-image: none;
+  mask-image: none;
 }
 .news-scroll ul {
   margin: 0;
   padding-left: 1.2em;
-  line-height: 1.6;
+  line-height: 1.5;
 }
 .news-scroll li {
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 .news-scroll li:last-child {
   margin-bottom: 0;
@@ -257,7 +265,7 @@ html {
 }
 body {
   background: #fafafa;
-  line-height: 1.55;
+  line-height: 1.5;
   margin: 0;
   padding: 0;
   overflow-x: hidden;
@@ -445,30 +453,33 @@ td.main-td {
   line-height: 1.25;
   color: #1a1a1a;
 }
-/* Self-hosted subset of LXGW WenKai TC (霞鹜文楷, SIL OFL 1.1) — only the glyphs
-   in 陳一葦 (1.3 KB). Guarantees the Chinese name renders identically everywhere,
-   including on machines with no CJK font installed.
-   Source: https://github.com/lxgw/LxgwWenkaiTC */
+/* Self-hosted subset of LXGW WenKai (霞鹜文楷, SIL OFL 1.1) — only the glyphs in
+   陈一苇 (1.1 KB). A kai (regular script) face, and self-hosting guarantees the
+   name renders identically everywhere, including on machines with no CJK font
+   installed. Source: https://github.com/lxgw/LxgwWenkaiTC */
 @font-face {
-  font-family: 'Name TC';
-  src: url('fonts/name-tc.woff2') format('woff2');
+  font-family: 'Name SC';
+  src: url('fonts/name-sc.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
-  font-display: swap;
-  unicode-range: U+4E00, U+8466, U+9673;
+  /* block, not swap: on a machine with no CJK font installed the fallback is
+     tofu, and swap would flash those boxes before the webfont arrives. The
+     file is ~1 KB, so the block period is imperceptible. */
+  font-display: block;
+  unicode-range: U+4E00, U+82C7, U+9648;
 }
 .about-name-cn {
   font-weight: 400;
   color: #555;
   margin-left: 0.5em;
-  /* Latin stack has no CJK glyphs — 'Name TC' above supplies them, with local
-     kai/serif CJK fonts as the fallback if the webfont fails to load. */
-  font-family: 'Name TC', 'LXGW WenKai TC', 'Kaiti TC', BiauKai, 'DFKai-SB', KaiTi,
-    STKaiti, 'Songti TC', 'Noto Serif TC', 'PingFang TC', serif;
+  /* Latin stack has no CJK glyphs — 'Name SC' above supplies them, with local
+     kai fonts as the fallback if the webfont fails to load. */
+  font-family: 'Name SC', 'LXGW WenKai', 'Kaiti SC', STKaiti, KaiTi, 楷体,
+    'Songti SC', 'Noto Serif SC', 'PingFang SC', serif;
 }
 .about-text p {
-  margin: 0 0 14px 0;
-  line-height: 1.7;
+  margin: 0 0 12px 0;
+  line-height: 1.6;
 }
 .about-photo {
   flex: 0 0 auto;
@@ -543,8 +554,8 @@ heading {
   box-sizing: border-box;
   font-weight: 700;
   color: #1a1a1a;
-  margin-bottom: 6px;
-  padding-bottom: 6px;
+  margin-bottom: 12px;
+  padding-bottom: 7px;
   border-bottom: 2px solid #1772d0;
   letter-spacing: 0.02em;
 }
@@ -554,20 +565,20 @@ heading {
   margin-top: 3px;
 }
 .research-panel p {
-  margin: 0 0 8px 0;
+  margin: 0 0 10px 0;
 }
 .research-panel ul {
   margin: 0;
   padding-left: 1.2em;
-  line-height: 1.6;
+  line-height: 1.5;
 }
 .research-panel li {
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 
 /* Publications section — same horizontal padding as section-cell so blue line matches News */
 .publications-section {
-  margin-top: 24px;
+  margin-top: 34px;
   width: 100%;
   box-sizing: border-box;
   padding: 0 10px;
@@ -578,7 +589,7 @@ heading {
   margin: -6px 0 8px 0;
 }
 .pub-row {
-  padding: 22px 20px;
+  padding: 26px 20px;
 }
 .pub-row:first-of-type {
   padding-top: 6px;
@@ -594,68 +605,72 @@ heading {
 .pub-info p {
   font-size: 15px;
   color: #444;
-  line-height: 1.5;
-  margin: 10px 0 0 0;
+  line-height: 1.48;
+  margin: 12px 0 0 0;
 }
 /* Pill buttons are sized by what they are, not by what they link to. Matching
    on the URL made a Drive link or a relative project path render smaller than
    an arXiv or GitHub one in the same row. */
 
-/* ===== Venue badges ===== */
-em.accepted {
-  display: inline-block;
-  padding: 2px 9px;
-  border-radius: 5px;
-  font-style: normal;
-  font-size: 13px;
-  font-weight: 600;
-  background: #deeafc;
-  color: #1565c0;
-  margin-right: 4px;
-}
-em.oral {
-  display: inline-block;
-  padding: 2px 9px;
-  border-radius: 5px;
-  font-style: normal;
-  font-size: 13px;
-  font-weight: 600;
-  background: #e8f5e9;
-  color: #2e7d32;
-  margin-right: 4px;
-}
+/* ===== Venue badges =====
+   One shared shape; only the color says what kind of badge it is. The badge is
+   the only filled element in a row, so it reads as status, not as a button. */
+em.accepted,
+em.oral,
 em.review {
   display: inline-block;
-  padding: 2px 9px;
-  border-radius: 5px;
+  padding: 2px 8px;
+  border-radius: 4px;
   font-style: normal;
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 600;
-  background: #deeafc;
-  color: #1565c0;
-  margin-right: 4px;
+  letter-spacing: 0.01em;
+  margin-right: 5px;
+}
+/* Green means accepted and gold means honor — the conventional reading, so the
+   colors need no explaining. Green was previously spent on Oral, which left
+   nothing natural for "accepted"; swapping them settles it. Neither is blue,
+   which stays reserved for links. */
+em.accepted {
+  background: #dcefe0;
+  color: #1f6b38;
+}
+em.oral {
+  background: #f8ecd0;
+  color: #8a6212;
+}
+/* Not accepted yet — neutral, so it never reads as a venue. */
+em.review {
+  background: #ececef;
+  color: #5b5b66;
 }
 
 /* ===== Code/Paper pill buttons ===== */
 .pub-links {
   display: inline-flex;
-  gap: 6px;
   flex-wrap: wrap;
-  margin-top: 6px;
+  margin-top: 7px;
 }
+/* Plain text links divided by a hairline, the same divider used in the
+   Internships rows. Outlined pills weighed more than the paper titles they
+   sat under and competed with the filled venue badges. */
 .pub-links a {
   display: inline-block;
-  padding: 2px 11px;
-  border: 1.5px solid #1772d0;
-  border-radius: 20px;
+  padding: 0 11px;
   font-size: 15px;
   color: #1772d0;
   font-weight: 500;
-  transition: background 0.15s ease, color 0.15s ease;
+  transition: color 0.15s ease;
+}
+.pub-links a:first-child {
+  padding-left: 0;
+}
+.pub-links a + a {
+  border-left: 1px solid #dcdcdc;
 }
 .pub-links a:hover {
-  background: #1772d0;
-  color: #fff;
+  color: #0d4f96;
+  text-decoration: underline;
 }
 
 /* ===== Pub card hover ===== */
@@ -712,24 +727,25 @@ em.review {
   background: #17171b;
 }
 [data-theme="dark"] em.accepted {
-  background: rgba(37,99,235,0.25);
-  color: #93c5fd;
+  background: rgba(22,101,52,0.28);
+  color: #8fdba6;
 }
 [data-theme="dark"] em.oral {
-  background: rgba(22,101,52,0.25);
-  color: #86efac;
+  background: rgba(170,120,25,0.26);
+  color: #e6c078;
 }
 [data-theme="dark"] em.review {
-  background: rgba(37,99,235,0.25);
-  color: #93c5fd;
+  background: rgba(255,255,255,0.10);
+  color: #b4b4bd;
 }
 [data-theme="dark"] .pub-links a {
-  border-color: #60a5fa;
   color: #60a5fa;
 }
+[data-theme="dark"] .pub-links a + a {
+  border-left-color: #3a3a42;
+}
 [data-theme="dark"] .pub-links a:hover {
-  background: #60a5fa;
-  color: #0e0e10;
+  color: #93c5fd;
 }
 [data-theme="dark"] .social-btn {
   border-color: #3f3f46;
@@ -763,6 +779,8 @@ em.review {
 }
 /* No min-height: if the ClustrMaps widget fails to load we get no empty gap,
    and the wrapper still grows to fit the globe when it does load. */
+/* Wider than the old globe needed: a flat world map is ~2:1, so 220px made it
+   unreadably small. */
 .footer-globe-wrap {
   width: 100%;
   max-width: 220px;
@@ -978,3 +996,100 @@ em.review {
   color: #60a5fa;
   background: rgba(96, 165, 250, 0.06);
 }
+
+/* ===== Internships — three levels: org / date / role, plus optional meta ===== */
+.internship-table td {
+  padding: 11px 0;
+  vertical-align: middle;
+}
+.intern-logo {
+  width: 104px;
+}
+/* Wordmarks share a left edge, but not a box: these two have very different
+   proportions (Amazon 3.3:1, Cisco 1.9:1) and Cisco spends a third of its
+   height on the bars above the lettering. One shared box makes Cisco read as
+   the smaller logo, so each is sized to match the other's optical weight —
+   roughly equal ink, with the lettering at a similar size. */
+.intern-logo img {
+  object-fit: contain;
+  object-position: left center;
+  display: block;
+}
+.intern-logo .logo-amazon {
+  width: 80px;
+  height: 24px;
+}
+.intern-logo .logo-cisco {
+  width: 66px;
+  height: 35px;
+}
+/* Org and role are separate columns so the roles line up regardless of how
+   long the organization's name is. */
+.intern-org {
+  font-weight: 700;
+  white-space: nowrap;
+  padding-right: 14px;
+}
+.intern-role {
+  padding-right: 12px;
+}
+.intern-role::before {
+  content: "|";
+  color: #ccc;
+  margin-right: 14px;
+}
+.intern-title {
+  color: #555;
+}
+.intern-meta {
+  font-size: 13.5px;
+  color: #666;
+  margin-top: 3px;
+}
+.intern-date {
+  text-align: right;
+  color: #666;
+  font-size: 14px;
+  white-space: nowrap;
+}
+/* Both wordmarks are dark-on-transparent, so on a dark page they vanish.
+   A light chip keeps the brand colors instead of inverting them. */
+[data-theme="dark"] .intern-logo img {
+  background: #f2f2f2;
+  border-radius: 5px;
+  padding: 5px 7px;
+  /* In dark mode the chip edge is what the eye aligns to, so give both chips
+     the same width and center the wordmark inside. */
+  width: 80px;
+  object-position: center;
+}
+[data-theme="dark"] .intern-title,
+[data-theme="dark"] .intern-meta,
+[data-theme="dark"] .intern-date {
+  color: #a1a1aa;
+}
+[data-theme="dark"] .intern-role::before {
+  color: #52525b;
+}
+
+/* ===== One-line takeaway under each publication =====
+   The description says what the paper does; this says why it matters. No new
+   hue: the text is page ink and the emphasis comes from the rule beside it,
+   in the same blue as the line under each section heading. */
+.pub-takeaway {
+  font-size: 14.5px;
+  line-height: 1.45;
+  color: #26262b;
+  margin: 11px 0 0 0;
+  padding-left: 11px;
+  border-left: 2px solid #1772d0;
+}
+/* The description follows the takeaway, so it starts closer. */
+.pub-takeaway + p {
+  margin-top: 9px !important;
+}
+[data-theme="dark"] .pub-takeaway {
+  color: #e4e4e7;
+  border-left-color: #60a5fa;
+}
+
