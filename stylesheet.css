@@ -779,11 +779,10 @@ em.review {
 }
 /* No min-height: if the ClustrMaps widget fails to load we get no empty gap,
    and the wrapper still grows to fit the globe when it does load. */
-/* Wider than the old globe needed: a flat world map is ~2:1, so 220px made it
-   unreadably small. */
+/* A flat world map is ~2:1, so it needs more width than the old globe did. */
 .footer-globe-wrap {
   width: 100%;
-  max-width: 220px;
+  max-width: 300px;
   margin: 0 auto;
   position: relative;
 }

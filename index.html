@@ -334,13 +334,13 @@
   <!-- Visitor Map Footer -->
   <div class="footer-wrap">
     <div class="footer-globe-wrap">
-      <!-- Visitor globe. Two things had broken the old one: ClustrMaps moved to
-           mapmyvisitors.com (clustrmaps.com no longer resolves), and the new
-           globe.js locates its own tag via $("#mmvst_globe") — with the old
-           id="clstr_globe" it returns without drawing anything. The previous
-           d= token also belonged to someone else's account, copied in with a
-           template; this one is ours. https, for GitHub Pages. -->
-      <script type="text/javascript" id="mmvst_globe" src="https://mapmyvisitors.com/globe.js?d=C_jUzjGdjkwieqfhyWURerz59FELOB0pkNTvxdEylpI&w=200"></script>
+      <!-- Visitor map (MapMyVisitors, formerly ClustrMaps — clustrmaps.com no
+           longer resolves). This is the Map widget, not the Globe: the Globe
+           code on this account renders no points and records no visits at all,
+           while the Map code both renders and logs them. The Map also plots one
+           dot per visitor rather than aggregating to a country centroid.
+           Each widget type has its own d= token; this one is the Map's. -->
+      <script type="text/javascript" id="mapmyvisitors" src="https://mapmyvisitors.com/map.js?cl=ffffff&w=a&t=n&d=qGlorgHFi5xER5UsdMEeYQRiezV20QZ3aawBjvmnNHU"></script>
       </div>
   </div>
   <div class="site-footer">&copy; 2026 Yiwei Chen &middot; Last updated Aug 2026</div>
