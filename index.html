@@ -18,7 +18,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..900;1,8..60,300..900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" type="text/css" href="stylesheet.css?v=20260804b">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css?v=20261005e">
   <script>(function(){if(localStorage.getItem('theme')==='dark'){document.documentElement.setAttribute('data-theme','dark');}})();</script>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌏</text></svg>">
 </head>
@@ -29,8 +29,8 @@
       <div class="toc-title">Yiwei Chen</div>
       <div class="nav-center">
         <a href="#research">Research</a>
-        <a href="#news">News</a>
         <a href="#internships">Internships</a>
+        <a href="#news">News</a>
         <a href="#publications">Publications</a>
       </div>
       <button class="theme-toggle" aria-label="Toggle dark mode" id="theme-btn">
@@ -69,10 +69,14 @@
                 <img src="images/yiwei-4.png" alt="profile photo" class="hoverZoomLink">
               </div>
             </div>
+            <div class="hiring-callout">
+              <i class="fa-solid fa-briefcase"></i>
+              <span>I am looking for <strong>research internships for summer 2027</strong>. Feel free to <a href="mailto:chenyiw9@msu.edu" id="reach-out" title="Click to copy chenyiw9@msu.edu">reach out</a>!<span class="copy-hint" aria-live="polite"></span></span>
+            </div>
           </div>
 
           <table id="research"
-            style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;margin-top:34px;">
+            style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;margin-top:30px;">
             <tbody>
               <tr>
                 <td class="section-cell" style="width:100%">
@@ -83,10 +87,10 @@
                     <strong>explainable</strong> artificial intelligence, with the long-term goal of making AI systems safe and scalable.
                     Currently, I'm working on:
                   </p>
-                  <ul>
-                    <li> <strong>Foundation Models:</strong> Large Language Models, Multi-Modal Language Models, Multi-Modality</li>
-                    <li> <strong>Agent &amp; Post-Training:</strong> Agentic Systems, Multi-Agent Systems, GUI Agents, Recursive Self-Improvement, Reasoning, Post-Training</li>
-                    <li> <strong>Trustworthy AI:</strong> Alignment, Trustworthy Algorithms, Interpretability, Machine Unlearning</li>
+                  <ul class="research-list">
+                    <li><strong>Foundation Models</strong><span><span>Large Language Models</span>, <span>Multi-Modal Language Models</span>, <span>Multi-Modality</span></span></li>
+                    <li><strong>Agent &amp; Post-Training</strong><span><span>Agentic Systems</span>, <span>Multi-Agent Systems</span>, <span>GUI Agents</span>, <span>Recursive Self-Improvement</span>, <span>Reasoning</span>, <span>Post-Training</span></span></li>
+                    <li><strong>Trustworthy AI</strong><span><span>Alignment</span>, <span>Trustworthy Algorithms</span>, <span>Interpretability</span>, <span>Machine Unlearning</span></span></li>
                   </ul>
                     </div>
                 </td>
@@ -94,40 +98,9 @@
             </tbody>
           </table>
 
-          <table id="news"
-          style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;margin-top:34px;">
-          <tbody>
-            <tr>
-              <td class="section-cell news-section-cell" style="width:100%">
-                <heading>News</heading>
-                <!-- <p>
-                  My research interests lie at the intersection of <strong>robust</strong> and
-                  <strong>explainable</strong> artificial intelligence, with the long-term goal of making AI systems safe and scalable
-                  Currently, I'm working on: -->
-                <div class="news-scroll">
-                <ul>
-                  <!-- <li> <strong>2026-04</strong>  New paper on tracing LLM lineage via spectral fingerprints in weight space submitted! </li>
-                  <li> <strong>2025-10</strong>  New paper on data-centric CVE exploit generation benchmarking from Cisco internship! </li> -->
-                  <li> <strong>2026-07</strong>  Two papers accepted at COLM'26, including one as first author! </li>
-                  <li> <strong>2026-05</strong>  Joined Amazon as an Applied Scientist Intern this summer! </li>
-                  <li> <strong>2026-01</strong>  Two first-author papers accepted at ICLR'26! </li>
-                  <li> <strong>2025-05</strong>  Joined Cisco as a PhD Intern! </li>
-                  <li> <strong>2025-05</strong>  <a href="https://arxiv.org/abs/2506.14003">Unlearning Isn't Invisible</a> on detecting unlearning traces in LLMs from model outputs! </li>
-                  <li> <strong>2025-03</strong>  <a href="https://arxiv.org/abs/2503.11832">Safety Mirage</a> on the application of machine unlearning to VLM safety alignment, my first project as a PhD student! </li>
-                  <li> <strong>2024-08</strong>  Started PhD journey at Michigan State University! </li>
-                  <li> <strong>2024-06</strong>  Graduated from Xi'an Jiaotong University!</li>
-                </ul>
-                  </div>
-                <!-- </p> -->
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
-
           <!-- Internships Section -->
           <table id="internships"
-            style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;margin-top:34px;">
+            style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;margin-top:30px;">
             <tbody>
               <tr>
                 <td class="section-cell" style="width:100%">
@@ -167,6 +140,37 @@
               </tr>
             </tbody>
           </table>
+
+
+          <table id="news"
+          style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;margin-top:30px;">
+          <tbody>
+            <tr>
+              <td class="section-cell news-section-cell" style="width:100%">
+                <heading>News</heading>
+                <!-- <p>
+                  My research interests lie at the intersection of <strong>robust</strong> and
+                  <strong>explainable</strong> artificial intelligence, with the long-term goal of making AI systems safe and scalable
+                  Currently, I'm working on: -->
+                <div class="news-scroll">
+                <ul>
+                  <!-- <li> <strong>2026-04</strong>  New paper on tracing LLM lineage via spectral fingerprints in weight space submitted! </li>
+                  <li> <strong>2025-10</strong>  New paper on data-centric CVE exploit generation benchmarking from Cisco internship! </li> -->
+                  <li> <strong>2026-07</strong>  Two papers accepted at COLM'26, including one as first author! </li>
+                  <li> <strong>2026-05</strong>  Joined Amazon as an Applied Scientist Intern this summer! </li>
+                  <li> <strong>2026-01</strong>  Two first-author papers accepted at ICLR'26! </li>
+                  <li> <strong>2025-05</strong>  Joined Cisco as a PhD Intern! </li>
+                  <li> <strong>2025-05</strong>  <a href="https://arxiv.org/abs/2506.14003">Unlearning Isn't Invisible</a> on detecting unlearning traces in LLMs from model outputs! </li>
+                  <li> <strong>2025-03</strong>  <a href="https://arxiv.org/abs/2503.11832">Safety Mirage</a> on the application of machine unlearning to VLM safety alignment, my first project as a PhD student! </li>
+                  <li> <strong>2024-08</strong>  Started PhD journey at Michigan State University! </li>
+                  <li> <strong>2024-06</strong>  Graduated from Xi'an Jiaotong University!</li>
+                </ul>
+                  </div>
+                <!-- </p> -->
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
 
           <!-- Publications Section -->
@@ -415,6 +419,19 @@
           _mailLabel.textContent = 'Email';
           _mail.classList.remove('copied');
         }, 1500);
+      }).catch(() => {});
+    });
+    // "reach out" in the internship callout copies the same address; the link
+    // text stays put and a hint after the sentence confirms the copy.
+    const _reach = document.getElementById('reach-out');
+    const _reachHint = document.querySelector('.hiring-callout .copy-hint');
+    let _reachTimer;
+    _reach.addEventListener('click', () => {
+      _copyEmail(_reach.getAttribute('href').replace('mailto:', '')).then(() => {
+        _reachHint.textContent = 'Email copied!';
+        _reachHint.classList.add('show');
+        clearTimeout(_reachTimer);
+        _reachTimer = setTimeout(() => _reachHint.classList.remove('show'), 1500);
       }).catch(() => {});
     });
   </script>

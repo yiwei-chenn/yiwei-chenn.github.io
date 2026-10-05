@@ -434,7 +434,57 @@ td.main-td {
 /* Intro block */
 .intro-section {
   margin-bottom: 8px;
-  padding: 20px 10px 16px;
+  padding: 20px 10px 6px;
+}
+/* Internship-search callout under the intro */
+.hiring-callout {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 22px;
+  padding: 12px 16px;
+  background: #eaf1fb;
+  border-left: 4px solid #1772d0;
+  border-radius: 8px;
+  font-size: 16px;
+  line-height: 1.45;
+}
+.hiring-callout i {
+  color: #1772d0;
+  flex: 0 0 auto;
+}
+.hiring-callout a {
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.hiring-callout .copy-hint {
+  margin-left: 10px;
+  padding: 1px 8px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1772d0;
+  background: rgba(23, 114, 208, 0.1);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.hiring-callout .copy-hint:empty {
+  display: none;
+}
+.hiring-callout .copy-hint.show {
+  opacity: 1;
+}
+[data-theme="dark"] .hiring-callout .copy-hint {
+  color: #60a5fa;
+  background: rgba(96, 165, 250, 0.12);
+}
+[data-theme="dark"] .hiring-callout {
+  background: #172033;
+  border-left-color: #60a5fa;
+}
+[data-theme="dark"] .hiring-callout i {
+  color: #60a5fa;
 }
 .about-grid {
   display: flex;
@@ -547,17 +597,23 @@ td.main-td {
   min-width: 0;
 }
 
-/* Section headings — blue stripe under title (full-width line) */
+/* Section headings — a hairline runs from the end of the title to the right edge */
 heading {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 14px;
   width: 100%;
   box-sizing: border-box;
   font-weight: 700;
   color: #1a1a1a;
   margin-bottom: 12px;
-  padding-bottom: 7px;
-  border-bottom: 2px solid #1772d0;
   letter-spacing: 0.02em;
+}
+heading::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #dcdfe4;
 }
 
 /* Research section — no box wrapper */
@@ -575,10 +631,33 @@ heading {
 .research-panel li {
   margin-bottom: 2px;
 }
+/* Label | items grid, so a wrapped line lines up under the items rather than
+   under the label, and no term ("Recursive Self-Improvement") splits in two. */
+.research-list {
+  list-style: none;
+}
+.research-panel .research-list {
+  padding-left: 0;
+}
+.research-list li {
+  display: grid;
+  grid-template-columns: 11em 1fr;
+  column-gap: 12px;
+  margin-bottom: 6px;
+}
+.research-list li > span > span {
+  white-space: nowrap;
+}
+@media (max-width: 600px) {
+  .research-list li {
+    grid-template-columns: 1fr;
+    margin-bottom: 8px;
+  }
+}
 
 /* Publications section — same horizontal padding as section-cell so blue line matches News */
 .publications-section {
-  margin-top: 34px;
+  margin-top: 30px;
   width: 100%;
   box-sizing: border-box;
   padding: 0 10px;
@@ -703,7 +782,9 @@ em.review {
 }
 [data-theme="dark"] heading {
   color: #f4f4f5;
-  border-bottom-color: #60a5fa;
+}
+[data-theme="dark"] heading::after {
+  background: #2e2e33;
 }
 [data-theme="dark"] .about-name {
   color: #f4f4f5;
@@ -998,7 +1079,7 @@ em.review {
 
 /* ===== Internships — three levels: org / date / role, plus optional meta ===== */
 .internship-table td {
-  padding: 11px 0;
+  padding: 7px 0;
   vertical-align: middle;
 }
 .intern-logo {
@@ -1074,7 +1155,7 @@ em.review {
 /* ===== One-line takeaway under each publication =====
    The description says what the paper does; this says why it matters. No new
    hue: the text is page ink and the emphasis comes from the rule beside it,
-   in the same blue as the line under each section heading. */
+   in the site's link blue. */
 .pub-takeaway {
   font-size: 14.5px;
   line-height: 1.45;
